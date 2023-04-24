@@ -6,20 +6,20 @@ const callbackQueryHandler = async (
   callbackQuery: TelegramBot.CallbackQuery,
   bot: TelegramBot,
 ) => {
-  if (callbackQuery.message && callbackQuery.data === "/info") {
+  if (callbackQuery.message && callbackQuery.data === '/info') {
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Welcome to the Info section!',
     });
     await Commands.info(callbackQuery.message, bot);
-    return
+    return;
   }
 
-  if (callbackQuery.message && callbackQuery.data === "/create") {
+  if (callbackQuery.message && callbackQuery.data === '/create') {
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Welcome to the Create New Topic Section!',
     });
     await Commands.createTopic(callbackQuery.message, bot);
-    return
+    return;
   }
 
   if (callbackQuery.message && callbackQuery.data?.startsWith('/show')) {
@@ -34,24 +34,31 @@ const callbackQueryHandler = async (
     return;
   }
 
-  if (callbackQuery.message && callbackQuery.data?.startsWith("/edit")) {
-    const topicId = callbackQuery.data?.split("/")[2]
-    const editableField = callbackQuery?.data?.split("/")[3] as D.types.editableFields
+  if (callbackQuery.message && callbackQuery.data?.startsWith('/edit')) {
+    const topicId = callbackQuery.data?.split('/')[2];
+    const editableField = callbackQuery?.data?.split(
+      '/',
+    )[3] as D.types.editableFields;
 
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Edit Topic Section',
     });
-    await Commands.editTopic(callbackQuery.message, bot, topicId, editableField);
-    return
+    await Commands.editTopic(
+      callbackQuery.message,
+      bot,
+      topicId,
+      editableField,
+    );
+    return;
   }
 
-  if (callbackQuery.message && callbackQuery.data?.startsWith("/delete")) {
-    const topicId = callbackQuery.data?.split("/")[2]
+  if (callbackQuery.message && callbackQuery.data?.startsWith('/delete')) {
+    const topicId = callbackQuery.data?.split('/')[2];
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Delete Topic Section',
     });
     await Commands.deleteTopic(callbackQuery.message, bot, topicId);
-    return
+    return;
   }
 };
 

@@ -1,1 +1,1 @@
-export {default} from './show-topic.js'
+export { default } from './show-topic.js';

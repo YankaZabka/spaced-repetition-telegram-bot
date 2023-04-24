@@ -41,7 +41,7 @@ const showTopic = async ({
               callback_data: `/edit/${topic.id}/description`,
             },
           ],
-            [{text: "Delete topic", callback_data: `/delete/${topic.id}`}]
+          [{ text: 'Delete topic', callback_data: `/delete/${topic.id}` }],
         ],
       },
     },

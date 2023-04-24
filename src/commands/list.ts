@@ -5,8 +5,8 @@ const list = async (msg: TelegramBot.Message, bot: TelegramBot) => {
   const chatId = msg.chat.id;
 
   if (D.constants.DATABASE.topics.length === 0) {
-      await bot.sendMessage(chatId, 'There is no topic.');
-      return;
+    await bot.sendMessage(chatId, 'There is no topic.');
+    return;
   }
 
   const inlineKeyboard = D.constants.DATABASE.topics.map((topic) => [
