@@ -1,0 +1,20 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "extends": ["plugin:@typescript-eslint/recommended", "prettier"],
+  "plugins": ["only-warn", "@typescript-eslint", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "env": {
+    "es2018": true,
+    "node": true
+  },
+  "rules": {
+    "no-console": "warn",
+    "import/no-unresolved": "off",
+    "import/extensions": "off",
+    "@typescript-eslint/ban-ts-comment": "off"
+  }
+}
