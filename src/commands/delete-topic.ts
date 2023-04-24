@@ -13,10 +13,9 @@ const deleteTopic = async (
     );
 
     if (topic) {
-        const topicIndex = D.constants.DATABASE.topics.findIndex(
-            (topic) => topic.id === topicId,
+        D.constants.DATABASE.topics = D.constants.DATABASE.topics.filter(
+            (topic) => topic.id !== topicId,
         );
-        delete D.constants.DATABASE.topics[topicIndex]
         await bot.sendMessage(chatId, 'Topic was deleted.');
     } else {
         await bot.sendMessage(chatId, 'Failed to delete the topic. Please try again.');

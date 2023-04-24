@@ -1,12 +1,11 @@
 import TelegramBot from 'node-telegram-bot-api';
 import * as Commands from '../commands/index.js';
-import * as D from '../duck/index.js'
+import * as D from '../duck/index.js';
 
 const callbackQueryHandler = async (
   callbackQuery: TelegramBot.CallbackQuery,
   bot: TelegramBot,
 ) => {
-
   if (callbackQuery.message && callbackQuery.data === "/info") {
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Welcome to the Info section!',
@@ -23,14 +22,16 @@ const callbackQueryHandler = async (
     return
   }
 
-  if (callbackQuery.message && callbackQuery.data?.startsWith("/show")) {
-    const topicId = callbackQuery.data?.split("/")[2]
+  if (callbackQuery.message && callbackQuery.data?.startsWith('/show')) {
+    const topicId = callbackQuery.data?.split('/')[2];
 
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Welcome to the View New Topic Section!',
+    await Commands.showTopic({
+      message: callbackQuery.message,
+      bot,
+      topicId,
+      callbackQueryId: callbackQuery.id,
     });
-    await Commands.showTopic(callbackQuery.message, bot, topicId);
-    return
+    return;
   }
 
   if (callbackQuery.message && callbackQuery.data?.startsWith("/edit")) {
