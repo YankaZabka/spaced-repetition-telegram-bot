@@ -1,20 +1,31 @@
-import TelegramBot from 'node-telegram-bot-api';
-import * as D from '../duck/index.js';
+import * as D from '../../duck/index.js';
+import * as LD from './duck/index.js';
 
-const showTopic = async (
-  msg: TelegramBot.Message,
-  bot: TelegramBot,
-  topicId: string,
-) => {
-  const chatId = msg.chat.id;
+const showTopic = async ({
+  topicId,
+  callbackQueryId,
+  message,
+  bot,
+}: LD.types.Props) => {
+  const chatId = message.chat.id;
 
   const topic = D.constants.DATABASE.topics.find(
     (topic) => topic.id === topicId,
   );
 
   if (!topic) {
-    await bot.sendMessage(chatId, 'Invalid topic. Please try again.');
+    if (callbackQueryId) {
+      await bot.answerCallbackQuery(callbackQueryId, {
+        text: 'Invalid topic. Please try again.',
+      });
+    }
     return;
+  }
+
+  if (callbackQueryId) {
+    await bot.answerCallbackQuery(callbackQueryId, {
+      text: 'Welcome to the View Topic Section!',
+    });
   }
 
   await bot.sendMessage(
