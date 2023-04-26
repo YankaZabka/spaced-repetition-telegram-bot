@@ -2,7 +2,7 @@ export interface IDB {
   topics: ITopic[];
 }
 
-interface ITopic {
+export interface ITopic {
   id: string;
   title: string;
   description?: string;
