@@ -18,7 +18,11 @@ const callbackQueryHandler = async (
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Welcome to the Create New Topic Section!',
     });
-    await Commands.createTopic(callbackQuery.message, bot);
+    await Commands.createTopic(
+      callbackQuery.message,
+      bot,
+      callbackQuery.from.id,
+    );
     return;
   }
 
@@ -26,10 +30,11 @@ const callbackQueryHandler = async (
     const topicId = callbackQuery.data?.split('/')[2];
 
     await Commands.showTopic({
-      message: callbackQuery.message,
+      msg: callbackQuery.message,
       bot,
       topicId,
       callbackQueryId: callbackQuery.id,
+      callbackQueryFromId: callbackQuery.from.id,
     });
     return;
   }
@@ -43,12 +48,13 @@ const callbackQueryHandler = async (
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Edit Topic Section',
     });
-    await Commands.editTopic(
-      callbackQuery.message,
+    await Commands.editTopic({
+      msg: callbackQuery.message,
       bot,
       topicId,
       editableField,
-    );
+      callbackQueryFromId: callbackQuery.from.id,
+    });
     return;
   }
 
@@ -57,7 +63,12 @@ const callbackQueryHandler = async (
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Delete Topic Section',
     });
-    await Commands.deleteTopic(callbackQuery.message, bot, topicId);
+    await Commands.deleteTopic(
+      callbackQuery.message,
+      bot,
+      topicId,
+      callbackQuery.from.id,
+    );
     return;
   }
 };

@@ -4,29 +4,43 @@ import * as LD from './duck/index.js';
 const showTopic = async ({
   topicId,
   callbackQueryId,
-  message,
+  msg,
   bot,
+  callbackQueryFromId,
 }: LD.types.Props) => {
-  const chatId = message.chat.id;
+  const chatId = msg.chat.id;
+  const userTelegramId = callbackQueryFromId || msg.from?.id;
 
-  const topic = D.constants.DATABASE.topics.find(
-    (topic) => topic.id === topicId,
-  );
-
-  if (!topic) {
-    if (callbackQueryId) {
-      await bot.answerCallbackQuery(callbackQueryId, {
-        text: 'Invalid topic. Please try again.',
-      });
-    }
+  if (!userTelegramId) {
+    await bot.sendMessage(
+      chatId,
+      'Something went wrong. I cannot identify your telegram id.',
+    );
     return;
   }
 
-  if (callbackQueryId) {
-    await bot.answerCallbackQuery(callbackQueryId, {
-      text: 'Welcome to the View Topic Section!',
-    });
+  const user = D.utils.findDBUserById(userTelegramId);
+
+  if (!user) {
+    await bot.sendMessage(
+      chatId,
+      'Something went wrong. I cannot find your data in database.',
+    );
+    return;
   }
+
+  const topic = user.topics.find((topic) => topic.id === topicId);
+
+  if (!topic) {
+    await bot.answerCallbackQuery(callbackQueryId, {
+      text: 'Invalid topic. Please try again.',
+    });
+    return;
+  }
+
+  await bot.answerCallbackQuery(callbackQueryId, {
+    text: 'Welcome to the View Topic Section!',
+  });
 
   await bot.sendMessage(
     chatId,
