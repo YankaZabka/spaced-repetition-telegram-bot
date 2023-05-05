@@ -3451,6 +3451,11 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
+toad-scheduler@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/toad-scheduler/-/toad-scheduler-2.2.0.tgz#e24dd009f3a5566a89555b0e811f1e56af528395"
+  integrity sha512-o/3na7CMVfW40x8H/Vw078GNIR6F7jNmPnuSRY2yVqFIPXRrQttcfRlkQk0dwFiw7fQCqpCGXoC/vo7QtoQMhw==
+
 touch@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/touch/-/touch-3.1.0.tgz#fe365f5f75ec9ed4e56825e0bb76d24ab74af83b"

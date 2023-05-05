@@ -54,6 +54,7 @@
     "dayjs": "1.11.7",
     "dotenv": "16.0.3",
     "node-telegram-bot-api": "0.61.0",
+    "toad-scheduler": "2.2.0",
     "uuid": "9.0.0"
   }
 }
