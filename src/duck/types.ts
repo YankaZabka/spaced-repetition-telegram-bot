@@ -1,11 +1,18 @@
 export interface IDB {
+  users: IUser[];
+}
+
+export interface IUser {
+  chatId: number;
+  telegramId: number;
   topics: ITopic[];
 }
 
-interface ITopic {
+export interface ITopic {
   id: string;
   title: string;
-  description?: string;
+  description: string;
+  repeatDate?: string;
   cover?: string;
   links?: string[];
   chapters?: IChapter[];

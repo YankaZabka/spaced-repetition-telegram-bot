@@ -2,6 +2,8 @@
 
 .env
 
+.eslintcache
+
 # compiled output
 /dist
 /tmp

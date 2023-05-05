@@ -1,7 +1,29 @@
 import TelegramBot from 'node-telegram-bot-api';
+import * as D from '../duck/index.js';
 
 const start = async (msg: TelegramBot.Message, bot: TelegramBot) => {
   const chatId = msg.chat.id;
+  const userTelegramId = msg.from?.id;
+
+  if (!msg.from?.id) {
+    await bot.sendMessage(
+      chatId,
+      'Something went wrong. I cannot identify your telegram id.',
+    );
+    return;
+  }
+
+  if (
+    D.constants.DATABASE.users.findIndex(
+      (user) => user.telegramId === userTelegramId,
+    ) === -1
+  ) {
+    D.constants.DATABASE.users.push({
+      chatId,
+      telegramId: msg.from.id,
+      topics: [],
+    });
+  }
 
   await bot.sendMessage(
     chatId,

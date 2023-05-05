@@ -2,8 +2,37 @@ import TelegramBot from 'node-telegram-bot-api';
 import { v4 as uuidv4 } from 'uuid';
 import * as D from '../duck/index.js';
 
-const createTopic = async (msg: TelegramBot.Message, bot: TelegramBot) => {
+const createTopic = async (
+  msg: TelegramBot.Message,
+  bot: TelegramBot,
+  callbackQueryFromId?: number,
+) => {
   const chatId = msg.chat.id;
+  const userTelegramId = callbackQueryFromId || msg.from?.id;
+
+  if (!userTelegramId) {
+    await bot.sendMessage(
+      chatId,
+      'Something went wrong. I cannot identify your telegram id.',
+    );
+    return;
+  }
+
+  const user = D.utils.findDBUserById(userTelegramId);
+
+  if (!user) {
+    await bot.sendMessage(
+      chatId,
+      'Something went wrong. I cannot find your data in database.',
+    );
+    return;
+  }
+
+  const newTopic: D.types.ITopic = {
+    id: uuidv4(),
+    title: '',
+    description: '',
+  };
 
   const topicMsgResponse = await bot.sendMessage(
     chatId,
@@ -22,18 +51,12 @@ const createTopic = async (msg: TelegramBot.Message, bot: TelegramBot) => {
     });
   });
 
-  const newTopicId = uuidv4();
-  const title = titleReply.text;
-
-  if (!title) {
+  if (titleReply.text) {
+    newTopic.title = titleReply.text;
+  } else {
     await bot.sendMessage(chatId, 'Invalid title. Please try again.');
     return;
   }
-
-  D.constants.DATABASE.topics.push({
-    id: newTopicId,
-    title: title,
-  });
 
   const descriptionMsgResponse = await bot.sendMessage(
     chatId,
@@ -56,24 +79,16 @@ const createTopic = async (msg: TelegramBot.Message, bot: TelegramBot) => {
     );
   });
 
-  const description = descriptionReply.text;
-  const newTopic = D.constants.DATABASE.topics.find(
-    (topic) => topic.id === newTopicId,
-  );
+  if (descriptionReply.text) {
+    newTopic.description = descriptionReply.text;
+    newTopic.repeatDate = D.utils.calculateReviewDate(descriptionReply.date, 2);
 
-  if (!description) {
-    await bot.sendMessage(chatId, 'Invalid description. Please try again.');
-    return;
-  }
+    user.topics.push(newTopic);
 
-  if (newTopic) {
-    newTopic.description = description;
     await bot.sendMessage(chatId, 'Congrats! The topic was created.');
   } else {
-    await bot.sendMessage(
-      chatId,
-      'Failed to create the topic. Please try again.',
-    );
+    await bot.sendMessage(chatId, 'Invalid description. Please try again.');
+    await bot.sendMessage(chatId, 'Invalid description. Please try again.');
   }
 };
 

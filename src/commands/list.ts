@@ -3,13 +3,32 @@ import * as D from '../duck/index.js';
 
 const list = async (msg: TelegramBot.Message, bot: TelegramBot) => {
   const chatId = msg.chat.id;
+  const userTelegramId = msg.from?.id;
 
-  if (D.constants.DATABASE.topics.length === 0) {
+  if (!userTelegramId) {
+    await bot.sendMessage(
+      chatId,
+      'Something went wrong. I cannot identify your telegram id.',
+    );
+    return;
+  }
+
+  const user = D.utils.findDBUserById(userTelegramId);
+
+  if (!user) {
+    await bot.sendMessage(
+      chatId,
+      'Something went wrong. I cannot find your data in database.',
+    );
+    return;
+  }
+
+  if (user.topics.length === 0) {
     await bot.sendMessage(chatId, 'There is no topic.');
     return;
   }
 
-  const inlineKeyboard = D.constants.DATABASE.topics.map((topic) => [
+  const inlineKeyboard = user.topics.map((topic) => [
     { text: topic.title, callback_data: `/show/${topic.id}` },
   ]);
 
