@@ -12,7 +12,7 @@ export interface ITopic {
   id: string;
   title: string;
   description: string;
-  repeatDate: string;
+  repeatDate?: string;
   cover?: string;
   links?: string[];
   chapters?: IChapter[];
