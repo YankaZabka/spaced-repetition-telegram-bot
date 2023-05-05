@@ -1,8 +1,24 @@
-import dayjs from 'dayjs';
 import * as D from './index.js';
+import TelegramBot from 'node-telegram-bot-api';
+import * as Commands from '../commands/index.js';
 
-export const calculateReviewDate = (period: number) =>
-  dayjs().add(period, 'day').format();
+export const calculateReviewDate = (msgDate: number, period: number) =>
+  D.dayjs.unix(msgDate).add(period, 'day').format();
 
 export const findDBUserById = (userTelegramId: number) =>
   D.constants.DATABASE.users.find((user) => user.telegramId === userTelegramId);
+
+export const checkForRepeats = (bot: TelegramBot) => {
+  D.constants.DATABASE.users.forEach((user) => {
+    user.topics.forEach((topic) => {
+      const currentDate = D.dayjs();
+      const repeatDate = D.dayjs(topic.repeatDate);
+      const isSameOrBefore = repeatDate.isSameOrBefore(currentDate, 'hour');
+      if (isSameOrBefore) {
+        Commands.repeat(user.chatId, bot, topic).then(() => {
+          // do nothing.
+        });
+      }
+    });
+  });
+};
