@@ -44,7 +44,9 @@ const showTopic = async ({
 
   await bot.sendMessage(
     chatId,
-    `Title: ${topic.title}.\nDescription: ${topic.description}`,
+    `Title: ${topic.title}.
+    \nDescription: ${topic.description}.
+    \nRepeat date: ${D.dayjs(topic.repeatDate).format('YYYY-MM-DD HH:mm')}.`,
     {
       reply_markup: {
         inline_keyboard: [
