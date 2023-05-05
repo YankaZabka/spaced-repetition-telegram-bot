@@ -2,7 +2,7 @@ import TelegramBot from 'node-telegram-bot-api';
 import * as D from './duck/index.js';
 import * as Commands from './commands/index.js';
 import * as EventHandlers from './event-handlers/index.js';
-import { Task, SimpleIntervalJob} from "toad-scheduler";
+import { Task, SimpleIntervalJob } from 'toad-scheduler';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -22,6 +22,8 @@ bot.on('callback_query', async (callbackQuery) =>
 bot.on('my_chat_member', EventHandlers.myChatMemberHandler);
 
 // Each hour, this task checks if there are users with topics to repeat.
-const schedulerTask = new Task('check for repeats', () => D.utils.checkForRepeats(bot))
-const schedulerJob = new SimpleIntervalJob({ seconds: 20, }, schedulerTask)
-D.scheduler.addSimpleIntervalJob(schedulerJob)
+const schedulerTask = new Task('check for repeats', () =>
+  D.utils.checkForRepeats(bot),
+);
+const schedulerJob = new SimpleIntervalJob({ seconds: 20 }, schedulerTask);
+D.scheduler.addSimpleIntervalJob(schedulerJob);

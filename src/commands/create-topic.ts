@@ -31,7 +31,7 @@ const createTopic = async (
   const newTopic: D.types.ITopic = {
     id: uuidv4(),
     title: '',
-    description: ''
+    description: '',
   };
 
   const topicMsgResponse = await bot.sendMessage(
@@ -80,14 +80,14 @@ const createTopic = async (
   });
 
   if (descriptionReply.text) {
-
     newTopic.description = descriptionReply.text;
-    newTopic.repeatDate = D.utils.calculateReviewDate(descriptionReply.date, 2)
+    newTopic.repeatDate = D.utils.calculateReviewDate(descriptionReply.date, 2);
 
     user.topics.push(newTopic);
 
     await bot.sendMessage(chatId, 'Congrats! The topic was created.');
   } else {
+    await bot.sendMessage(chatId, 'Invalid description. Please try again.');
     await bot.sendMessage(chatId, 'Invalid description. Please try again.');
   }
 };
