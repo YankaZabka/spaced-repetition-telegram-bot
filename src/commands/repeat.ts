@@ -2,41 +2,10 @@ import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../duck/index.js';
 
 const repeat = async (
-  msg: TelegramBot.Message,
+  chatId: number,
   bot: TelegramBot,
-  topicId: string,
+  topic: D.types.ITopic,
 ) => {
-  const chatId = msg.chat.id;
-  const userTelegramId = msg.from?.id;
-
-  if (!userTelegramId) {
-    await bot.sendMessage(
-      chatId,
-      'Cannot notify about repetition: there is no telegram id.',
-    );
-    return;
-  }
-
-  const user = D.utils.findDBUserById(userTelegramId);
-
-  if (!user) {
-    await bot.sendMessage(
-      chatId,
-      'Cannot notify about repetition: cannot find your data in database.',
-    );
-    return;
-  }
-
-  const topic = user.topics.find((topic) => topic.id === topicId);
-
-  if (!topic) {
-    await bot.sendMessage(
-      chatId,
-      'Cannot notify about repetition: invalid topic.',
-    );
-    return;
-  }
-
   await bot.sendMessage(
     chatId,
     `Title: ${topic.title}.\nDescription: ${topic.description}`,
@@ -44,21 +13,24 @@ const repeat = async (
       reply_markup: {
         inline_keyboard: [
           [
-            { text: 'Complete' },
+            { text: 'Complete ✅', callback_data: `/complete/${topic.id}` },
             {
-              text: 'Fail',
+              text: 'Fail ❎',
+              callback_data: `/fail/${topic.id}`,
             },
           ],
           [
-            { text: 'Snooze' },
+            { text: 'Snooze 💤', callback_data: `/snooze/${topic.id}` },
             {
-              text: 'Info',
+              text: 'Show 📖 ',
+              callback_data: `/show/${topic.id}`,
             },
           ],
           [
-            { text: 'Progress' },
+            { text: 'Progress 🚀', callback_data: `/progress/${topic.id}` },
             {
-              text: 'Supplement topic',
+              text: 'Supplement topic 🧪',
+              callback_data: `/add_chapter/${topic.id}`,
             },
           ],
         ],
