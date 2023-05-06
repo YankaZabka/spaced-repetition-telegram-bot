@@ -36,8 +36,6 @@ const start = async (msg: TelegramBot.Message, bot: TelegramBot) => {
             { text: 'Create New Topic 📝', callback_data: '/create' },
           ],
         ],
-        resize_keyboard: true,
-        one_time_keyboard: true,
       },
       parse_mode: 'Markdown',
     },

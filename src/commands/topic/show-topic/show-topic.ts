@@ -1,15 +1,16 @@
 import * as D from '../../../duck/index.js';
-import * as LD from './duck/index.js';
+import TelegramBot from 'node-telegram-bot-api';
 
-const showTopic = async ({
-  topicId,
-  callbackQueryId,
-  msg,
-  bot,
-  callbackQueryFromId,
-}: LD.types.Props) => {
-  const chatId = msg.chat.id;
-  const userTelegramId = callbackQueryFromId || msg.from?.id;
+const showTopic = async (
+  bot: TelegramBot,
+  callbackQuery: TelegramBot.CallbackQuery,
+  topicId: string,
+) => {
+  const { message } = callbackQuery as {
+    message: TelegramBot.Message;
+  };
+  const chatId = message.chat.id;
+  const userTelegramId = callbackQuery.from.id;
 
   if (!userTelegramId) {
     await bot.sendMessage(
@@ -32,15 +33,9 @@ const showTopic = async ({
   const topic = user.topics.find((topic) => topic.id === topicId);
 
   if (!topic) {
-    await bot.answerCallbackQuery(callbackQueryId, {
-      text: 'Invalid topic. Please try again.',
-    });
+    await bot.sendMessage(chatId, 'Invalid topic. Please try again.');
     return;
   }
-
-  await bot.answerCallbackQuery(callbackQueryId, {
-    text: 'Welcome to the View Topic Section!',
-  });
 
   await bot.sendMessage(
     chatId,
@@ -51,20 +46,31 @@ const showTopic = async ({
       reply_markup: {
         inline_keyboard: [
           [
-            { text: 'Chapters 📝', callback_data: `/chapter-list/${topic.id}` },
+            {
+              text: 'Chapters 📝',
+              callback_data: `/chapter-list?topicId=${topic.id}`,
+            },
             {
               text: 'Add chapter ➕',
-              callback_data: `/create-chapter/${topic.id}`,
+              callback_data: `/create-chapter?topicId=${topic.id}`,
             },
           ],
           [
-            { text: 'Edit title', callback_data: `/edit/${topic.id}/title` },
+            {
+              text: 'Edit title',
+              callback_data: `/edit?topicId=${topic.id}&field=title`,
+            },
             {
               text: 'Edit description',
-              callback_data: `/edit/${topic.id}/description`,
+              callback_data: `/edit?topicId=${topic.id}&field=description`,
             },
           ],
-          [{ text: 'Delete topic', callback_data: `/delete/${topic.id}` }],
+          [
+            {
+              text: 'Delete topic',
+              callback_data: `/delete?topicId=${topic.id}`,
+            },
+          ],
         ],
       },
     },

@@ -3,43 +3,39 @@ import * as D from '../../duck/index.js';
 import { nanoid } from 'nanoid';
 
 const createChapter = async (
-  topicId: string,
   bot: TelegramBot,
   callbackQuery: TelegramBot.CallbackQuery,
+  topicId: string,
 ) => {
-  const { message } = callbackQuery;
-  if (!message) {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Something went wrong.',
-    });
-    return;
-  }
+  const { message } = callbackQuery as {
+    message: TelegramBot.Message;
+  };
   const chatId = message.chat.id;
 
   const userTelegramId = callbackQuery.from.id;
 
   if (!userTelegramId) {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Something went wrong. I cannot identify your telegram id.',
-    });
+    await bot.sendMessage(
+      chatId,
+      'Something went wrong. I cannot identify your telegram id.',
+    );
     return;
   }
 
   const user = D.utils.findDBUserById(userTelegramId);
 
   if (!user) {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Something went wrong. I cannot find your data in database.',
-    });
+    await bot.sendMessage(
+      chatId,
+      'Something went wrong. I cannot find your data in database.',
+    );
     return;
   }
 
   const topic = user.topics.find((topic) => topic.id === topicId);
 
   if (!topic) {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Invalid topic. Please try again.',
-    });
+    await bot.sendMessage(chatId, 'Invalid topic. Please try again.');
     return;
   }
 

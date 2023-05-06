@@ -1,6 +1,6 @@
 import TelegramBot from 'node-telegram-bot-api';
-import { v4 as uuidv4 } from 'uuid';
 import * as D from '../../duck/index.js';
+import { nanoid } from 'nanoid';
 
 const createTopic = async (
   msg: TelegramBot.Message,
@@ -29,7 +29,7 @@ const createTopic = async (
   }
 
   const newTopic: D.types.ITopic = {
-    id: uuidv4(),
+    id: nanoid(5),
     title: '',
     description: '',
   };

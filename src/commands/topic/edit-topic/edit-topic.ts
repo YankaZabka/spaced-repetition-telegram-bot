@@ -1,16 +1,17 @@
 import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../../../duck/index.js';
-import * as LD from './duck/index.js';
 
-const editTopic = async ({
-  msg,
-  bot,
-  topicId,
-  editableField,
-  callbackQueryFromId,
-}: LD.types.Props) => {
-  const chatId = msg.chat.id;
-  const userTelegramId = callbackQueryFromId || msg.from?.id;
+const editTopic = async (
+  bot: TelegramBot,
+  callbackQuery: TelegramBot.CallbackQuery,
+  topicId: string,
+  editableField: D.types.editableFields,
+) => {
+  const { message } = callbackQuery as {
+    message: TelegramBot.Message;
+  };
+  const chatId = message.chat.id;
+  const userTelegramId = callbackQuery.from.id;
 
   if (!userTelegramId) {
     await bot.sendMessage(
