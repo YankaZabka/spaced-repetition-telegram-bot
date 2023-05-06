@@ -18,7 +18,9 @@ export interface ITopic {
   chapters?: IChapter[];
 }
 
-interface IChapter {
+export interface IChapter {
+  id: string;
+  topicId: string;
   title: string;
   description: string;
 }
