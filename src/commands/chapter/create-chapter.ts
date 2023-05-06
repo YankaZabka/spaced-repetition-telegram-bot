@@ -44,6 +44,8 @@ const createChapter = async (
     topicId,
     title: '',
     description: '',
+    repeatDate: '',
+    leitnerBox: 1,
   };
 
   const titleMsgResponse = await bot.sendMessage(
@@ -95,7 +97,7 @@ const createChapter = async (
     newChapter.description = descriptionReply.text;
     newChapter.repeatDate = D.utils.calculateReviewDate(
       descriptionReply.date,
-      2,
+      1,
     );
 
     if (topic.chapters) {

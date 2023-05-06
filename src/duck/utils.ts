@@ -16,7 +16,7 @@ export const checkForRepeats = (bot: TelegramBot) => {
         const repeatDate = D.dayjs(chapter.repeatDate);
         const isSameOrBefore = repeatDate.isSameOrBefore(currentDate, 'hour');
         if (isSameOrBefore) {
-          Commands.repeat(user.chatId, bot, topic).then(() => {
+          Commands.repeat(user.chatId, bot, chapter).then(() => {
             // do nothing.
           });
         }

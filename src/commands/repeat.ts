@@ -4,33 +4,35 @@ import * as D from '../duck/index.js';
 const repeat = async (
   chatId: number,
   bot: TelegramBot,
-  topic: D.types.ITopic,
+  chapter: D.types.IChapter,
 ) => {
   await bot.sendMessage(
     chatId,
-    `Title: ${topic.title}.\nDescription: ${topic.description}`,
+    `Title: ${chapter.title}.\nDescription: ${chapter.description}`,
     {
       reply_markup: {
         inline_keyboard: [
           [
-            { text: 'Complete ✅', callback_data: `/complete/${topic.id}` },
+            {
+              text: 'Complete ✅',
+              callback_data: `/complete?tId=${chapter.topicId}&cId=${chapter.id}`,
+            },
+            {
+              text: 'More 📖 ',
+              callback_data: `/show-chapter?tId=${chapter.topicId}&cId=${chapter.id}`,
+            },
+          ],
+          [
             {
               text: 'Fail ❎',
-              callback_data: `/fail/${topic.id}`,
+              callback_data: `/fail?tId=${chapter.topicId}&cId=${chapter.id}`,
             },
+            { text: 'Snooze 💤 (WIP)', callback_data: `/snooze/${chapter.id}` },
           ],
           [
-            { text: 'Snooze 💤', callback_data: `/snooze/${topic.id}` },
             {
-              text: 'Show 📖 ',
-              callback_data: `/show/${topic.id}`,
-            },
-          ],
-          [
-            { text: 'Progress 🚀', callback_data: `/progress/${topic.id}` },
-            {
-              text: 'Supplement topic 🧪',
-              callback_data: `/add_chapter/${topic.id}`,
+              text: 'Progress 🚀 (WIP)',
+              callback_data: `/progress/${chapter.id}`,
             },
           ],
         ],

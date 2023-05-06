@@ -125,6 +125,28 @@ const callbackQueryHandler = async (
     await Commands.Chapter.chapterList(bot, callbackQuery, topicId);
     return;
   }
+
+  if (callbackQuery.data?.startsWith('/complete')) {
+    await bot.answerCallbackQuery(callbackQuery.id, {
+      text: 'Complete Chapter Section',
+    });
+    const { tId: topicId, cId: chapterId } = D.utils.getQueryParams(
+      callbackQuery.data,
+    );
+    await Commands.complete(bot, callbackQuery, topicId, chapterId);
+    return;
+  }
+
+  if (callbackQuery.data?.startsWith('/fail')) {
+    await bot.answerCallbackQuery(callbackQuery.id, {
+      text: 'Fail Chapter Section',
+    });
+    const { tId: topicId, cId: chapterId } = D.utils.getQueryParams(
+      callbackQuery.data,
+    );
+    await Commands.fail(bot, callbackQuery, topicId, chapterId);
+    return;
+  }
 };
 
 export default callbackQueryHandler;

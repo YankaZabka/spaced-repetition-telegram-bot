@@ -22,7 +22,8 @@ export interface IChapter {
   topicId: string;
   title: string;
   description: string;
-  repeatDate?: string;
+  repeatDate: string;
+  leitnerBox: number;
 }
 
 export type editableFields = 't' | 'd';
