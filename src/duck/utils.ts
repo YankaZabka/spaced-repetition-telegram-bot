@@ -22,3 +22,17 @@ export const checkForRepeats = (bot: TelegramBot) => {
     });
   });
 };
+
+export const getQueryParams = (query: string) => {
+  const paramsString = query.split('?')[1];
+  if (paramsString) {
+    const paramsArray = paramsString.split('&').map((item) => {
+      const [param, value] = item.split('=');
+      return {
+        [param]: value,
+      };
+    });
+    return Object.assign({}, ...paramsArray);
+  }
+  return null;
+};
