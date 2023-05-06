@@ -93,6 +93,10 @@ const createChapter = async (
 
   if (descriptionReply.text) {
     newChapter.description = descriptionReply.text;
+    newChapter.repeatDate = D.utils.calculateReviewDate(
+      descriptionReply.date,
+      2,
+    );
 
     if (topic.chapters) {
       topic.chapters.push(newChapter);

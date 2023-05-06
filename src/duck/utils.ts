@@ -11,14 +11,16 @@ export const findDBUserById = (userTelegramId: number) =>
 export const checkForRepeats = (bot: TelegramBot) => {
   D.constants.DATABASE.users.forEach((user) => {
     user.topics.forEach((topic) => {
-      const currentDate = D.dayjs();
-      const repeatDate = D.dayjs(topic.repeatDate);
-      const isSameOrBefore = repeatDate.isSameOrBefore(currentDate, 'hour');
-      if (isSameOrBefore) {
-        Commands.repeat(user.chatId, bot, topic).then(() => {
-          // do nothing.
-        });
-      }
+      topic.chapters?.forEach((chapter) => {
+        const currentDate = D.dayjs();
+        const repeatDate = D.dayjs(chapter.repeatDate);
+        const isSameOrBefore = repeatDate.isSameOrBefore(currentDate, 'hour');
+        if (isSameOrBefore) {
+          Commands.repeat(user.chatId, bot, topic).then(() => {
+            // do nothing.
+          });
+        }
+      });
     });
   });
 };

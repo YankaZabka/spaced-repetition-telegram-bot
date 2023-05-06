@@ -81,7 +81,6 @@ const createTopic = async (
 
   if (descriptionReply.text) {
     newTopic.description = descriptionReply.text;
-    newTopic.repeatDate = D.utils.calculateReviewDate(descriptionReply.date, 2);
 
     user.topics.push(newTopic);
 

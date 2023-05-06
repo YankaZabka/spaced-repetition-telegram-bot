@@ -21,7 +21,7 @@ bot.on('callback_query', async (callbackQuery) =>
 );
 bot.on('my_chat_member', EventHandlers.myChatMemberHandler);
 
-// Each hour, this task checks if there are users with topics to repeat.
+// Each hour, this task checks if there are users with chapters to repeat.
 const schedulerTask = new Task('check for repeats', () =>
   D.utils.checkForRepeats(bot),
 );
