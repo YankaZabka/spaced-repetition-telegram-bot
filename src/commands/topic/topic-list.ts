@@ -29,7 +29,7 @@ const topicList = async (msg: TelegramBot.Message, bot: TelegramBot) => {
   }
 
   const inlineKeyboard = user.topics.map((topic) => [
-    { text: topic.title, callback_data: `/show?topicId=${topic.id}` },
+    { text: topic.title, callback_data: `/show?tId=${topic.id}` },
   ]);
 
   await bot.sendMessage(

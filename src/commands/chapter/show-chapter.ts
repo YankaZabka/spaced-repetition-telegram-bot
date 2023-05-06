@@ -1,10 +1,11 @@
 import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../../duck/index.js';
 
-const chapterList = async (
+const showChapter = async (
   bot: TelegramBot,
   callbackQuery: TelegramBot.CallbackQuery,
   topicId: string,
+  chapterId: string,
 ) => {
   const { message } = callbackQuery as {
     message: TelegramBot.Message;
@@ -38,27 +39,40 @@ const chapterList = async (
     return;
   }
 
-  if (!topic.chapters) {
-    await bot.sendMessage(chatId, 'There is no chapters.');
+  const chapter = topic.chapters?.find((chapter) => chapter.id === chapterId);
+
+  if (!chapter) {
+    await bot.sendMessage(chatId, 'Invalid chapter. Please try again.');
     return;
   }
 
-  const inlineKeyboard = topic.chapters.map((chapter) => [
-    {
-      text: chapter.title,
-      callback_data: `/show-chapter?tId=${topic.id}&cId=${chapter.id}`,
-    },
-  ]);
-
   await bot.sendMessage(
     chatId,
-    'There is list of all chapters that you created for this topic.\nClick on the chapter you want to see information about.',
+    `Title: ${chapter.title}.
+    \nDescription: ${chapter.description}.`,
     {
       reply_markup: {
-        inline_keyboard: inlineKeyboard,
+        inline_keyboard: [
+          [
+            {
+              text: 'Edit title',
+              callback_data: `/edit-chapter?tId=${topic.id}&cId=${chapter.id}`,
+            },
+            {
+              text: 'Edit description',
+              callback_data: `/edit-chapter?tId=${topic.id}&cId=${chapter.id}`,
+            },
+          ],
+          [
+            {
+              text: 'Delete chapter',
+              callback_data: `/delete-chapter?tId=${topic.id}&cId=${chapter.id}`,
+            },
+          ],
+        ],
       },
     },
   );
 };
 
-export default chapterList;
+export default showChapter;

@@ -25,4 +25,4 @@ export interface IChapter {
   description: string;
 }
 
-export type editableFields = 'title' | 'description';
+export type editableFields = 't' | 'd';

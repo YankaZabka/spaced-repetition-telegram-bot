@@ -1,10 +1,11 @@
 import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../../duck/index.js';
 
-const chapterList = async (
+const deleteChapter = async (
   bot: TelegramBot,
   callbackQuery: TelegramBot.CallbackQuery,
   topicId: string,
+  chapterId: string,
 ) => {
   const { message } = callbackQuery as {
     message: TelegramBot.Message;
@@ -38,27 +39,15 @@ const chapterList = async (
     return;
   }
 
-  if (!topic.chapters) {
-    await bot.sendMessage(chatId, 'There is no chapters.');
+  const chapter = topic.chapters?.find((chapter) => chapter.id === chapterId);
+
+  if (!chapter || !topic.chapters) {
+    await bot.sendMessage(chatId, 'Invalid chapter. Please try again.');
     return;
   }
 
-  const inlineKeyboard = topic.chapters.map((chapter) => [
-    {
-      text: chapter.title,
-      callback_data: `/show-chapter?tId=${topic.id}&cId=${chapter.id}`,
-    },
-  ]);
-
-  await bot.sendMessage(
-    chatId,
-    'There is list of all chapters that you created for this topic.\nClick on the chapter you want to see information about.',
-    {
-      reply_markup: {
-        inline_keyboard: inlineKeyboard,
-      },
-    },
-  );
+  topic.chapters = topic.chapters.filter((chapter) => chapter.id !== chapterId);
+  await bot.sendMessage(chatId, 'Chapter was deleted.');
 };
 
-export default chapterList;
+export default deleteChapter;

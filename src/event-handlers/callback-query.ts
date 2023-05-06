@@ -33,12 +33,42 @@ const callbackQueryHandler = async (
     return;
   }
 
+  if (callbackQuery.data?.startsWith('/show-chapter')) {
+    await bot.answerCallbackQuery(callbackQuery.id, {
+      text: 'Chapter List Section',
+    });
+    const { tId: topicId, cId: chapterId } = D.utils.getQueryParams(
+      callbackQuery.data,
+    );
+    await Commands.Chapter.showChapter(bot, callbackQuery, topicId, chapterId);
+    return;
+  }
+
   if (callbackQuery.data?.startsWith('/show')) {
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Show Topic Section',
     });
-    const { topicId } = D.utils.getQueryParams(callbackQuery.data);
+    const { tId: topicId } = D.utils.getQueryParams(callbackQuery.data);
     await Commands.Topic.showTopic(bot, callbackQuery, topicId);
+    return;
+  }
+
+  if (callbackQuery.data?.startsWith('/edit-chapter')) {
+    await bot.answerCallbackQuery(callbackQuery.id, {
+      text: 'Edit Chapter Section',
+    });
+    const {
+      tId: topicId,
+      cId: chapterId,
+      ef: editableField,
+    } = D.utils.getQueryParams(callbackQuery.data);
+    await Commands.Chapter.editChapter(
+      bot,
+      callbackQuery,
+      topicId,
+      chapterId,
+      editableField,
+    );
     return;
   }
 
@@ -46,10 +76,26 @@ const callbackQueryHandler = async (
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Edit Topic Section',
     });
-    const { topicId, field: editableField } = D.utils.getQueryParams(
+    const { tId: topicId, ef: editableField } = D.utils.getQueryParams(
       callbackQuery.data,
     );
     await Commands.Topic.editTopic(bot, callbackQuery, topicId, editableField);
+    return;
+  }
+
+  if (callbackQuery.data?.startsWith('/delete-chapter')) {
+    await bot.answerCallbackQuery(callbackQuery.id, {
+      text: 'Delete Chapter Section',
+    });
+    const { tId: topicId, cId: chapterId } = D.utils.getQueryParams(
+      callbackQuery.data,
+    );
+    await Commands.Chapter.deleteChapter(
+      bot,
+      callbackQuery,
+      topicId,
+      chapterId,
+    );
     return;
   }
 
@@ -57,7 +103,7 @@ const callbackQueryHandler = async (
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Delete Topic Section',
     });
-    const { topicId } = D.utils.getQueryParams(callbackQuery.data);
+    const { tId: topicId } = D.utils.getQueryParams(callbackQuery.data);
     await Commands.Topic.deleteTopic(bot, callbackQuery, topicId);
     return;
   }
@@ -66,7 +112,7 @@ const callbackQueryHandler = async (
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Add New Chapter Section',
     });
-    const { topicId } = D.utils.getQueryParams(callbackQuery.data);
+    const { tId: topicId } = D.utils.getQueryParams(callbackQuery.data);
     await Commands.Chapter.createChapter(bot, callbackQuery, topicId);
     return;
   }
@@ -75,7 +121,7 @@ const callbackQueryHandler = async (
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Chapter List Section',
     });
-    const { topicId } = D.utils.getQueryParams(callbackQuery.data);
+    const { tId: topicId } = D.utils.getQueryParams(callbackQuery.data);
     await Commands.Chapter.chapterList(bot, callbackQuery, topicId);
     return;
   }

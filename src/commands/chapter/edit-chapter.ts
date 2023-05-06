@@ -1,10 +1,11 @@
 import TelegramBot from 'node-telegram-bot-api';
-import * as D from '../../../duck/index.js';
+import * as D from '../../duck/index.js';
 
-const editTopic = async (
+const editChapter = async (
   bot: TelegramBot,
   callbackQuery: TelegramBot.CallbackQuery,
   topicId: string,
+  chapterId: string,
   editableField: D.types.editableFields,
 ) => {
   const { message } = callbackQuery as {
@@ -40,6 +41,13 @@ const editTopic = async (
     return;
   }
 
+  const chapter = topic.chapters?.find((chapter) => chapter.id === chapterId);
+
+  if (!chapter) {
+    await bot.sendMessage(chatId, 'Invalid chapter. Please try again.');
+    return;
+  }
+
   const msgResponse = await bot.sendMessage(
     chatId,
     `Please provide new ${formattedEditableField}:`,
@@ -65,14 +73,14 @@ const editTopic = async (
     topic[formattedEditableField] = updatedField;
     await bot.sendMessage(
       chatId,
-      `Congrats! The topic's ${formattedEditableField} was updated.`,
+      `Congrats! The chapter's ${formattedEditableField} was updated.`,
     );
   } else {
     await bot.sendMessage(
       chatId,
-      'Failed to update the topic. Please try again.',
+      'Failed to update the chapter. Please try again.',
     );
   }
 };
 
-export default editTopic;
+export default editChapter;

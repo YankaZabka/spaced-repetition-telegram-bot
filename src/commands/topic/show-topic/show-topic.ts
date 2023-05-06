@@ -48,27 +48,27 @@ const showTopic = async (
           [
             {
               text: 'Chapters 📝',
-              callback_data: `/chapter-list?topicId=${topic.id}`,
+              callback_data: `/chapter-list?tId=${topic.id}`,
             },
             {
               text: 'Add chapter ➕',
-              callback_data: `/create-chapter?topicId=${topic.id}`,
+              callback_data: `/create-chapter?tId=${topic.id}`,
             },
           ],
           [
             {
               text: 'Edit title',
-              callback_data: `/edit?topicId=${topic.id}&field=title`,
+              callback_data: `/edit?tId=${topic.id}&ef=t`,
             },
             {
               text: 'Edit description',
-              callback_data: `/edit?topicId=${topic.id}&field=description`,
+              callback_data: `/edit?tId=${topic.id}&ef=d`,
             },
           ],
           [
             {
               text: 'Delete topic',
-              callback_data: `/delete?topicId=${topic.id}`,
+              callback_data: `/delete?tId=${topic.id}`,
             },
           ],
         ],
