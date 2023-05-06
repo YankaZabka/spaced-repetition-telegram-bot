@@ -26,6 +26,27 @@ const callbackQueryHandler = async (
     return;
   }
 
+  if (
+    callbackQuery.message &&
+    callbackQuery.data?.startsWith('/create-chapter')
+  ) {
+    const topicId = callbackQuery.data?.split('/')[2];
+    await bot.answerCallbackQuery(callbackQuery.id, {
+      text: 'Welcome to the Add New Chapter Section!',
+    });
+    await Commands.Chapter.createChapter(topicId, bot, callbackQuery);
+    return;
+  }
+
+  if (
+    callbackQuery.message &&
+    callbackQuery.data?.startsWith('/chapter-list')
+  ) {
+    const topicId = callbackQuery.data?.split('/')[2];
+    await Commands.Chapter.chapterList(topicId, bot, callbackQuery);
+    return;
+  }
+
   if (callbackQuery.message && callbackQuery.data?.startsWith('/show')) {
     const topicId = callbackQuery.data?.split('/')[2];
 

@@ -4,3 +4,4 @@ export { default as completeTopic } from './complete-topic.js';
 export { default as failTopic } from './fail-topic.js';
 export { default as repeat } from './repeat.js';
 export { default as Topic } from './topic/index.js';
+export { default as Chapter } from './chapter/index.js';

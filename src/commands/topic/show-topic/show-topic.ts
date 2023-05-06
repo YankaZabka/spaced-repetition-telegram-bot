@@ -51,6 +51,13 @@ const showTopic = async ({
       reply_markup: {
         inline_keyboard: [
           [
+            { text: 'Chapters 📝', callback_data: `/chapter-list/${topic.id}` },
+            {
+              text: 'Add chapter ➕',
+              callback_data: `/create-chapter/${topic.id}`,
+            },
+          ],
+          [
             { text: 'Edit title', callback_data: `/edit/${topic.id}/title` },
             {
               text: 'Edit description',
