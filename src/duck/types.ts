@@ -12,7 +12,6 @@ export interface ITopic {
   id: string;
   title: string;
   description: string;
-  repeatDate?: string;
   cover?: string;
   links?: string[];
   chapters?: IChapter[];
@@ -23,6 +22,7 @@ export interface IChapter {
   topicId: string;
   title: string;
   description: string;
+  repeatDate?: string;
 }
 
 export type editableFields = 't' | 'd';

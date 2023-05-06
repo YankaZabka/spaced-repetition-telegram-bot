@@ -49,7 +49,8 @@ const showChapter = async (
   await bot.sendMessage(
     chatId,
     `Title: ${chapter.title}.
-    \nDescription: ${chapter.description}.`,
+    \nDescription: ${chapter.description}.
+    \nRepeat date: ${D.dayjs(chapter.repeatDate).format('YYYY-MM-DD HH:mm')}.`,
     {
       reply_markup: {
         inline_keyboard: [

@@ -1,4 +1,4 @@
-import * as D from '../../../duck/index.js';
+import * as D from '../../duck/index.js';
 import TelegramBot from 'node-telegram-bot-api';
 
 const showTopic = async (
@@ -40,8 +40,7 @@ const showTopic = async (
   await bot.sendMessage(
     chatId,
     `Title: ${topic.title}.
-    \nDescription: ${topic.description}.
-    \nRepeat date: ${D.dayjs(topic.repeatDate).format('YYYY-MM-DD HH:mm')}.`,
+    \nDescription: ${topic.description}.`,
     {
       reply_markup: {
         inline_keyboard: [

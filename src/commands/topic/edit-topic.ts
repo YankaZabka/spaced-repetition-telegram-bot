@@ -1,5 +1,5 @@
 import TelegramBot from 'node-telegram-bot-api';
-import * as D from '../../../duck/index.js';
+import * as D from '../../duck/index.js';
 
 const editTopic = async (
   bot: TelegramBot,
