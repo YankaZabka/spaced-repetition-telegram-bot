@@ -12,15 +12,18 @@ export interface ITopic {
   id: string;
   title: string;
   description: string;
-  repeatDate?: string;
   cover?: string;
   links?: string[];
   chapters?: IChapter[];
 }
 
-interface IChapter {
+export interface IChapter {
+  id: string;
+  topicId: string;
   title: string;
   description: string;
+  repeatDate: string;
+  leitnerBox: number;
 }
 
-export type editableFields = 'title' | 'description';
+export type editableFields = 't' | 'd';

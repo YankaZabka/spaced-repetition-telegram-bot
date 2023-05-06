@@ -1,8 +1,7 @@
 export { default as start } from './start.js';
 export { default as info } from './info.js';
-export { default as createTopic } from './create-topic.js';
-export { default as editTopic } from './edit-topic/index.js';
-export { default as deleteTopic } from './delete-topic.js';
-export { default as showTopic } from './show-topic/index.js';
-export { default as list } from './list.js';
+export { default as complete } from './complete.js';
+export { default as fail } from './fail.js';
 export { default as repeat } from './repeat.js';
+export { default as Topic } from './topic/index.js';
+export { default as Chapter } from './chapter/index.js';

@@ -1,14 +1,16 @@
 import TelegramBot from 'node-telegram-bot-api';
-import * as D from '../duck/index.js';
+import * as D from '../../duck/index.js';
 
 const deleteTopic = async (
-  msg: TelegramBot.Message,
   bot: TelegramBot,
+  callbackQuery: TelegramBot.CallbackQuery,
   topicId: string,
-  callbackQueryFromId?: number,
 ) => {
-  const chatId = msg.chat.id;
-  const userTelegramId = callbackQueryFromId || msg.from?.id;
+  const { message } = callbackQuery as {
+    message: TelegramBot.Message;
+  };
+  const chatId = message.chat.id;
+  const userTelegramId = callbackQuery.from.id;
 
   if (!userTelegramId) {
     await bot.sendMessage(

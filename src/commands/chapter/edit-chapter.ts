@@ -1,16 +1,20 @@
 import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../../duck/index.js';
-import * as LD from './duck/index.js';
 
-const editTopic = async ({
-  msg,
-  bot,
-  topicId,
-  editableField,
-  callbackQueryFromId,
-}: LD.types.Props) => {
-  const chatId = msg.chat.id;
-  const userTelegramId = callbackQueryFromId || msg.from?.id;
+const editChapter = async (
+  bot: TelegramBot,
+  callbackQuery: TelegramBot.CallbackQuery,
+  topicId: string,
+  chapterId: string,
+  editableField: D.types.editableFields,
+) => {
+  const { message } = callbackQuery as {
+    message: TelegramBot.Message;
+  };
+  const chatId = message.chat.id;
+  const userTelegramId = callbackQuery.from.id;
+  const formattedEditableField =
+    editableField === 't' ? 'title' : 'description';
 
   if (!userTelegramId) {
     await bot.sendMessage(
@@ -37,14 +41,22 @@ const editTopic = async ({
     return;
   }
 
+  const chapter = topic.chapters?.find((chapter) => chapter.id === chapterId);
+
+  if (!chapter) {
+    await bot.sendMessage(chatId, 'Invalid chapter. Please try again.');
+    return;
+  }
+
   const msgResponse = await bot.sendMessage(
     chatId,
-    `Please provide new ${editableField}:`,
+    `Please provide new ${formattedEditableField}:`,
     {
       reply_markup: {
         force_reply: true,
         input_field_placeholder:
-          editableField.charAt(0).toUpperCase() + editableField.slice(1),
+          formattedEditableField.charAt(0).toUpperCase() +
+          formattedEditableField.slice(1),
       },
     },
   );
@@ -58,17 +70,17 @@ const editTopic = async ({
   const updatedField = reply.text;
 
   if (updatedField) {
-    topic[editableField] = updatedField;
+    topic[formattedEditableField] = updatedField;
     await bot.sendMessage(
       chatId,
-      `Congrats! The topic's ${editableField} was updated.`,
+      `Congrats! The chapter's ${formattedEditableField} was updated.`,
     );
   } else {
     await bot.sendMessage(
       chatId,
-      'Failed to update the topic. Please try again.',
+      'Failed to update the chapter. Please try again.',
     );
   }
 };
 
-export default editTopic;
+export default editChapter;

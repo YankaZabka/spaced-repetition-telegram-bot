@@ -1,7 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api';
-import * as D from '../duck/index.js';
+import * as D from '../../duck/index.js';
 
-const list = async (msg: TelegramBot.Message, bot: TelegramBot) => {
+const topicList = async (msg: TelegramBot.Message, bot: TelegramBot) => {
   const chatId = msg.chat.id;
   const userTelegramId = msg.from?.id;
 
@@ -29,7 +29,7 @@ const list = async (msg: TelegramBot.Message, bot: TelegramBot) => {
   }
 
   const inlineKeyboard = user.topics.map((topic) => [
-    { text: topic.title, callback_data: `/show/${topic.id}` },
+    { text: topic.title, callback_data: `/show?tId=${topic.id}` },
   ]);
 
   await bot.sendMessage(
@@ -38,10 +38,9 @@ const list = async (msg: TelegramBot.Message, bot: TelegramBot) => {
     {
       reply_markup: {
         inline_keyboard: inlineKeyboard,
-        resize_keyboard: true,
       },
     },
   );
 };
 
-export default list;
+export default topicList;

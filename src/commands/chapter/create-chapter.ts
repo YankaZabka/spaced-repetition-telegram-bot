@@ -1,14 +1,18 @@
 import TelegramBot from 'node-telegram-bot-api';
-import { v4 as uuidv4 } from 'uuid';
-import * as D from '../duck/index.js';
+import * as D from '../../duck/index.js';
+import { nanoid } from 'nanoid';
 
-const createTopic = async (
-  msg: TelegramBot.Message,
+const createChapter = async (
   bot: TelegramBot,
-  callbackQueryFromId?: number,
+  callbackQuery: TelegramBot.CallbackQuery,
+  topicId: string,
 ) => {
-  const chatId = msg.chat.id;
-  const userTelegramId = callbackQueryFromId || msg.from?.id;
+  const { message } = callbackQuery as {
+    message: TelegramBot.Message;
+  };
+  const chatId = message.chat.id;
+
+  const userTelegramId = callbackQuery.from.id;
 
   if (!userTelegramId) {
     await bot.sendMessage(
@@ -28,15 +32,25 @@ const createTopic = async (
     return;
   }
 
-  const newTopic: D.types.ITopic = {
-    id: uuidv4(),
+  const topic = user.topics.find((topic) => topic.id === topicId);
+
+  if (!topic) {
+    await bot.sendMessage(chatId, 'Invalid topic. Please try again.');
+    return;
+  }
+
+  const newChapter: D.types.IChapter = {
+    id: nanoid(5),
+    topicId,
     title: '',
     description: '',
+    repeatDate: '',
+    leitnerBox: 1,
   };
 
-  const topicMsgResponse = await bot.sendMessage(
+  const titleMsgResponse = await bot.sendMessage(
     chatId,
-    'Please provide a new topic title:',
+    'Please provide a new chapter title:',
     {
       reply_markup: {
         force_reply: true,
@@ -46,13 +60,13 @@ const createTopic = async (
   );
 
   const titleReply = await new Promise<TelegramBot.Message>((resolve) => {
-    bot.onReplyToMessage(chatId, topicMsgResponse.message_id, async (msg) => {
+    bot.onReplyToMessage(chatId, titleMsgResponse.message_id, async (msg) => {
       resolve(msg);
     });
   });
 
   if (titleReply.text) {
-    newTopic.title = titleReply.text;
+    newChapter.title = titleReply.text;
   } else {
     await bot.sendMessage(chatId, 'Invalid title. Please try again.');
     return;
@@ -60,7 +74,7 @@ const createTopic = async (
 
   const descriptionMsgResponse = await bot.sendMessage(
     chatId,
-    'Please provide a new topic description:',
+    'Please provide a new chapter description:',
     {
       reply_markup: {
         force_reply: true,
@@ -80,16 +94,25 @@ const createTopic = async (
   });
 
   if (descriptionReply.text) {
-    newTopic.description = descriptionReply.text;
-    newTopic.repeatDate = D.utils.calculateReviewDate(descriptionReply.date, 2);
+    newChapter.description = descriptionReply.text;
+    newChapter.repeatDate = D.utils.calculateReviewDate(
+      descriptionReply.date,
+      1,
+    );
 
-    user.topics.push(newTopic);
+    if (topic.chapters) {
+      topic.chapters.push(newChapter);
+    } else {
+      topic.chapters = [newChapter];
+    }
 
-    await bot.sendMessage(chatId, 'Congrats! The topic was created.');
+    await bot.sendMessage(
+      chatId,
+      'Congrats! The chapter was added. You will be notify for repetition on the next day.',
+    );
   } else {
-    await bot.sendMessage(chatId, 'Invalid description. Please try again.');
     await bot.sendMessage(chatId, 'Invalid description. Please try again.');
   }
 };
 
-export default createTopic;
+export default createChapter;

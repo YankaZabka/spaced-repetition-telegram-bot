@@ -6,19 +6,26 @@ const callbackQueryHandler = async (
   callbackQuery: TelegramBot.CallbackQuery,
   bot: TelegramBot,
 ) => {
-  if (callbackQuery.message && callbackQuery.data === '/info') {
+  if (!callbackQuery.message) {
     await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Welcome to the Info section!',
+      text: 'Something went wrong. Probably you are using too old message.',
+    });
+    return;
+  }
+
+  if (callbackQuery.data === '/info') {
+    await bot.answerCallbackQuery(callbackQuery.id, {
+      text: 'Info Section',
     });
     await Commands.info(callbackQuery.message, bot);
     return;
   }
 
-  if (callbackQuery.message && callbackQuery.data === '/create') {
+  if (callbackQuery.data === '/create') {
     await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Welcome to the Create New Topic Section!',
+      text: 'Create Topic Section',
     });
-    await Commands.createTopic(
+    await Commands.Topic.createTopic(
       callbackQuery.message,
       bot,
       callbackQuery.from.id,
@@ -26,49 +33,118 @@ const callbackQueryHandler = async (
     return;
   }
 
-  if (callbackQuery.message && callbackQuery.data?.startsWith('/show')) {
-    const topicId = callbackQuery.data?.split('/')[2];
-
-    await Commands.showTopic({
-      msg: callbackQuery.message,
-      bot,
-      topicId,
-      callbackQueryId: callbackQuery.id,
-      callbackQueryFromId: callbackQuery.from.id,
+  if (callbackQuery.data?.startsWith('/show-chapter')) {
+    await bot.answerCallbackQuery(callbackQuery.id, {
+      text: 'Chapter List Section',
     });
+    const { tId: topicId, cId: chapterId } = D.utils.getQueryParams(
+      callbackQuery.data,
+    );
+    await Commands.Chapter.showChapter(bot, callbackQuery, topicId, chapterId);
     return;
   }
 
-  if (callbackQuery.message && callbackQuery.data?.startsWith('/edit')) {
-    const topicId = callbackQuery.data?.split('/')[2];
-    const editableField = callbackQuery?.data?.split(
-      '/',
-    )[3] as D.types.editableFields;
+  if (callbackQuery.data?.startsWith('/show')) {
+    await bot.answerCallbackQuery(callbackQuery.id, {
+      text: 'Show Topic Section',
+    });
+    const { tId: topicId } = D.utils.getQueryParams(callbackQuery.data);
+    await Commands.Topic.showTopic(bot, callbackQuery, topicId);
+    return;
+  }
 
+  if (callbackQuery.data?.startsWith('/edit-chapter')) {
+    await bot.answerCallbackQuery(callbackQuery.id, {
+      text: 'Edit Chapter Section',
+    });
+    const {
+      tId: topicId,
+      cId: chapterId,
+      ef: editableField,
+    } = D.utils.getQueryParams(callbackQuery.data);
+    await Commands.Chapter.editChapter(
+      bot,
+      callbackQuery,
+      topicId,
+      chapterId,
+      editableField,
+    );
+    return;
+  }
+
+  if (callbackQuery.data?.startsWith('/edit')) {
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Edit Topic Section',
     });
-    await Commands.editTopic({
-      msg: callbackQuery.message,
-      bot,
-      topicId,
-      editableField,
-      callbackQueryFromId: callbackQuery.from.id,
-    });
+    const { tId: topicId, ef: editableField } = D.utils.getQueryParams(
+      callbackQuery.data,
+    );
+    await Commands.Topic.editTopic(bot, callbackQuery, topicId, editableField);
     return;
   }
 
-  if (callbackQuery.message && callbackQuery.data?.startsWith('/delete')) {
-    const topicId = callbackQuery.data?.split('/')[2];
+  if (callbackQuery.data?.startsWith('/delete-chapter')) {
+    await bot.answerCallbackQuery(callbackQuery.id, {
+      text: 'Delete Chapter Section',
+    });
+    const { tId: topicId, cId: chapterId } = D.utils.getQueryParams(
+      callbackQuery.data,
+    );
+    await Commands.Chapter.deleteChapter(
+      bot,
+      callbackQuery,
+      topicId,
+      chapterId,
+    );
+    return;
+  }
+
+  if (callbackQuery.data?.startsWith('/delete')) {
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Delete Topic Section',
     });
-    await Commands.deleteTopic(
-      callbackQuery.message,
-      bot,
-      topicId,
-      callbackQuery.from.id,
+    const { tId: topicId } = D.utils.getQueryParams(callbackQuery.data);
+    await Commands.Topic.deleteTopic(bot, callbackQuery, topicId);
+    return;
+  }
+
+  if (callbackQuery.data?.startsWith('/create-chapter')) {
+    await bot.answerCallbackQuery(callbackQuery.id, {
+      text: 'Add New Chapter Section',
+    });
+    const { tId: topicId } = D.utils.getQueryParams(callbackQuery.data);
+    await Commands.Chapter.createChapter(bot, callbackQuery, topicId);
+    return;
+  }
+
+  if (callbackQuery.data?.startsWith('/chapter-list')) {
+    await bot.answerCallbackQuery(callbackQuery.id, {
+      text: 'Chapter List Section',
+    });
+    const { tId: topicId } = D.utils.getQueryParams(callbackQuery.data);
+    await Commands.Chapter.chapterList(bot, callbackQuery, topicId);
+    return;
+  }
+
+  if (callbackQuery.data?.startsWith('/complete')) {
+    await bot.answerCallbackQuery(callbackQuery.id, {
+      text: 'Complete Chapter Section',
+    });
+    const { tId: topicId, cId: chapterId } = D.utils.getQueryParams(
+      callbackQuery.data,
     );
+    await Commands.complete(bot, callbackQuery, topicId, chapterId);
+    return;
+  }
+
+  if (callbackQuery.data?.startsWith('/fail')) {
+    await bot.answerCallbackQuery(callbackQuery.id, {
+      text: 'Fail Chapter Section',
+    });
+    const { tId: topicId, cId: chapterId } = D.utils.getQueryParams(
+      callbackQuery.data,
+    );
+    await Commands.fail(bot, callbackQuery, topicId, chapterId);
     return;
   }
 };

@@ -12,8 +12,8 @@ const bot = new TelegramBot(TOKEN, { polling: true });
 await bot.setMyCommands(D.constants.commands);
 
 bot.onText(/\/start/, (msg) => Commands.start(msg, bot));
-bot.onText(/\/create/, (msg) => Commands.createTopic(msg, bot));
-bot.onText(/\/list/, (msg) => Commands.list(msg, bot));
+bot.onText(/\/create/, (msg) => Commands.Topic.createTopic(msg, bot));
+bot.onText(/\/list/, (msg) => Commands.Topic.topicList(msg, bot));
 bot.onText(/\/info/, (msg) => Commands.info(msg, bot));
 
 bot.on('callback_query', async (callbackQuery) =>
@@ -21,7 +21,7 @@ bot.on('callback_query', async (callbackQuery) =>
 );
 bot.on('my_chat_member', EventHandlers.myChatMemberHandler);
 
-// Each hour, this task checks if there are users with topics to repeat.
+// Each hour, this task checks if there are users with chapters to repeat.
 const schedulerTask = new Task('check for repeats', () =>
   D.utils.checkForRepeats(bot),
 );
