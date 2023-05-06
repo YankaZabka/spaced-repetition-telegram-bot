@@ -1,6 +1,6 @@
 import TelegramBot from 'node-telegram-bot-api';
 import { v4 as uuidv4 } from 'uuid';
-import * as D from '../duck/index.js';
+import * as D from '../../duck/index.js';
 
 const createTopic = async (
   msg: TelegramBot.Message,
@@ -85,9 +85,14 @@ const createTopic = async (
 
     user.topics.push(newTopic);
 
-    await bot.sendMessage(chatId, 'Congrats! The topic was created.');
+    await bot.sendMessage(
+      chatId,
+      'Congrats\\! The topic was created\\. Now you can find it with a \\/list command and create a new chapter for it\\.',
+      {
+        parse_mode: 'MarkdownV2',
+      },
+    );
   } else {
-    await bot.sendMessage(chatId, 'Invalid description. Please try again.');
     await bot.sendMessage(chatId, 'Invalid description. Please try again.');
   }
 };

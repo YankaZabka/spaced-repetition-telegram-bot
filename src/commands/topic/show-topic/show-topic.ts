@@ -1,4 +1,4 @@
-import * as D from '../../duck/index.js';
+import * as D from '../../../duck/index.js';
 import * as LD from './duck/index.js';
 
 const showTopic = async ({

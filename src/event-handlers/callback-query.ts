@@ -18,7 +18,7 @@ const callbackQueryHandler = async (
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Welcome to the Create New Topic Section!',
     });
-    await Commands.createTopic(
+    await Commands.Topic.createTopic(
       callbackQuery.message,
       bot,
       callbackQuery.from.id,
@@ -29,7 +29,7 @@ const callbackQueryHandler = async (
   if (callbackQuery.message && callbackQuery.data?.startsWith('/show')) {
     const topicId = callbackQuery.data?.split('/')[2];
 
-    await Commands.showTopic({
+    await Commands.Topic.showTopic({
       msg: callbackQuery.message,
       bot,
       topicId,
@@ -48,7 +48,7 @@ const callbackQueryHandler = async (
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Edit Topic Section',
     });
-    await Commands.editTopic({
+    await Commands.Topic.editTopic({
       msg: callbackQuery.message,
       bot,
       topicId,
@@ -63,7 +63,7 @@ const callbackQueryHandler = async (
     await bot.answerCallbackQuery(callbackQuery.id, {
       text: 'Delete Topic Section',
     });
-    await Commands.deleteTopic(
+    await Commands.Topic.deleteTopic(
       callbackQuery.message,
       bot,
       topicId,

@@ -1,7 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api';
-import * as D from '../duck/index.js';
+import * as D from '../../duck/index.js';
 
-const list = async (msg: TelegramBot.Message, bot: TelegramBot) => {
+const topicList = async (msg: TelegramBot.Message, bot: TelegramBot) => {
   const chatId = msg.chat.id;
   const userTelegramId = msg.from?.id;
 
@@ -44,4 +44,4 @@ const list = async (msg: TelegramBot.Message, bot: TelegramBot) => {
   );
 };
 
-export default list;
+export default topicList;
