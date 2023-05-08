@@ -70,7 +70,7 @@ const editChapter = async (
   const updatedField = reply.text;
 
   if (updatedField) {
-    topic[formattedEditableField] = updatedField;
+    chapter[formattedEditableField] = updatedField;
     await bot.sendMessage(
       chatId,
       `Congrats! The chapter's ${formattedEditableField} was updated.`,
