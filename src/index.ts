@@ -3,11 +3,29 @@ import * as D from './duck/index.js';
 import * as Commands from './commands/index.js';
 import * as EventHandlers from './event-handlers/index.js';
 import { Task, SimpleIntervalJob } from 'toad-scheduler';
+import express from 'express';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
 const TOKEN = process.env['TOKEN'] as string;
-const bot = new TelegramBot(TOKEN, { polling: true });
+const PORT = process.env['PORT'];
+const URL = process.env['WEBHOOK_URL'];
+
+const bot = new TelegramBot(TOKEN);
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+bot.setWebHook(`${URL}/bot${TOKEN}`);
+
+// WebHook server setup
+const app = express();
+app.use(express.json());
+app.post(`/bot${TOKEN}`, (req, res) => {
+  bot.processUpdate(req.body);
+  res.sendStatus(200).end();
+});
+app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Express server is listening on ${PORT}`);
+});
 
 await bot.setMyCommands(D.constants.commands);
 
