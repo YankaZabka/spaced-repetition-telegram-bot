@@ -45,23 +45,30 @@ const showTopic = async (
       message_id: callbackQuery.message?.message_id,
       reply_markup: {
         inline_keyboard: [
+          topic.chapters
+            ? [
+                {
+                  text: 'Chapters 📝',
+                  callback_data: `/chapter-list?tId=${topic.id}`,
+                },
+                {
+                  text: 'Add chapter ➕',
+                  callback_data: `/create-chapter?tId=${topic.id}`,
+                },
+              ]
+            : [
+                {
+                  text: 'Add chapter ➕',
+                  callback_data: `/create-chapter?tId=${topic.id}`,
+                },
+              ],
           [
             {
-              text: 'Chapters 📝',
-              callback_data: `/chapter-list?tId=${topic.id}`,
-            },
-            {
-              text: 'Add chapter ➕',
-              callback_data: `/create-chapter?tId=${topic.id}`,
-            },
-          ],
-          [
-            {
-              text: 'Edit',
+              text: 'Edit ✏️',
               callback_data: `/edit?tId=${topic.id}`,
             },
             {
-              text: 'Delete topic',
+              text: 'Delete topic 🗑️',
               callback_data: `/delete?tId=${topic.id}`,
             },
           ],

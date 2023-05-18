@@ -57,11 +57,11 @@ const showChapter = async (
         inline_keyboard: [
           [
             {
-              text: 'Edit',
+              text: 'Edit ✏️',
               callback_data: `/edit-chapter?tId=${topic.id}&cId=${chapter.id}`,
             },
             {
-              text: 'Delete',
+              text: 'Delete 🗑️',
               callback_data: `/delete-chapter?tId=${topic.id}&cId=${chapter.id}`,
             },
           ],

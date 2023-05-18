@@ -49,7 +49,7 @@ const start = async (msg: TelegramBot.Message, bot: TelegramBot) => {
         inline_keyboard: [
           [
             { text: 'Learn More 🎓', callback_data: '/info' },
-            { text: 'Create New Topic 📝', callback_data: '/create' },
+            { text: 'Create New Topic ➕', callback_data: '/create' },
           ],
         ],
       },
