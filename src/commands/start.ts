@@ -21,23 +21,7 @@ const start = async (msg: TelegramBot.Message, bot: TelegramBot) => {
     D.constants.DATABASE.users.push({
       chatId,
       telegramId: msg.from.id,
-      topics: [
-        {
-          id: '1',
-          title: '1',
-          description: '1',
-          chapters: [
-            {
-              id: '1',
-              topicId: '1',
-              title: '1',
-              description: '1',
-              leitnerBox: 1,
-              repeatDate: 'dgsdfg',
-            },
-          ],
-        },
-      ],
+      topics: [],
     });
   }
 
