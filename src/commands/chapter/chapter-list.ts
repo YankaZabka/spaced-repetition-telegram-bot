@@ -50,12 +50,21 @@ const chapterList = async (
     },
   ]);
 
-  await bot.sendMessage(
-    chatId,
+  await bot.editMessageText(
     'There is list of all chapters that you created for this topic.\nClick on the chapter you want to see information about.',
     {
+      chat_id: chatId,
+      message_id: callbackQuery.message?.message_id,
       reply_markup: {
-        inline_keyboard: inlineKeyboard,
+        inline_keyboard: [
+          ...inlineKeyboard,
+          [
+            {
+              text: '« Back to Topic',
+              callback_data: `/nav?path=show-topic&tId=${topic.id}`,
+            },
+          ],
+        ],
       },
     },
   );

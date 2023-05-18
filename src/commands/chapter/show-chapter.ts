@@ -46,12 +46,13 @@ const showChapter = async (
     return;
   }
 
-  await bot.sendMessage(
-    chatId,
+  await bot.editMessageText(
     `Title: ${chapter.title}.
     \nDescription: ${chapter.description}.
     \nRepeat date: ${D.dayjs(chapter.repeatDate).format('YYYY-MM-DD HH:mm')}.`,
     {
+      chat_id: chatId,
+      message_id: callbackQuery.message?.message_id,
       reply_markup: {
         inline_keyboard: [
           [
@@ -68,6 +69,12 @@ const showChapter = async (
             {
               text: 'Delete chapter',
               callback_data: `/delete-chapter?tId=${topic.id}&cId=${chapter.id}`,
+            },
+          ],
+          [
+            {
+              text: '« Back to Chapters List',
+              callback_data: `/nav?path=chapter-list&tId=${topicId}`,
             },
           ],
         ],

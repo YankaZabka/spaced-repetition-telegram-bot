@@ -37,11 +37,12 @@ const showTopic = async (
     return;
   }
 
-  await bot.sendMessage(
-    chatId,
+  await bot.editMessageText(
     `Title: ${topic.title}.
     \nDescription: ${topic.description}.`,
     {
+      chat_id: chatId,
+      message_id: callbackQuery.message?.message_id,
       reply_markup: {
         inline_keyboard: [
           [
@@ -68,6 +69,12 @@ const showTopic = async (
             {
               text: 'Delete topic',
               callback_data: `/delete?tId=${topic.id}`,
+            },
+          ],
+          [
+            {
+              text: '« Back to Topics List',
+              callback_data: `/nav?path=list`,
             },
           ],
         ],
