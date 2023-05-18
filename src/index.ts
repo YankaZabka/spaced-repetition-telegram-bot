@@ -13,7 +13,7 @@ await bot.setMyCommands(D.constants.commands);
 
 bot.onText(/\/start/, (msg) => Commands.start(msg, bot));
 bot.onText(/\/create/, (msg) => Commands.Topic.createTopic(msg, bot));
-bot.onText(/\/list/, (msg) => Commands.Topic.topicList(msg, bot));
+bot.onText(/\/mytopics/, (msg) => Commands.Topic.topicList(msg, bot));
 bot.onText(/\/info/, (msg) => Commands.info(msg, bot));
 
 bot.on('callback_query', async (callbackQuery) =>
