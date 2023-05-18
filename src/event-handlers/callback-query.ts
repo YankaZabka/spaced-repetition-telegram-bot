@@ -56,7 +56,7 @@ const callbackQueryHandler = async (
     const {
       tId: topicId,
       cId: chapterId,
-      ef: editableField,
+      ef: editableField = null,
     } = D.utils.getQueryParams(callbackQuery.data);
     await Commands.Chapter.editChapter(
       bot,
@@ -70,7 +70,7 @@ const callbackQueryHandler = async (
 
   if (callbackQuery.data?.startsWith('/edit')) {
     await bot.answerCallbackQuery(callbackQuery.id);
-    const { tId: topicId, ef: editableField } = D.utils.getQueryParams(
+    const { tId: topicId, ef: editableField = null } = D.utils.getQueryParams(
       callbackQuery.data,
     );
     await Commands.Topic.editTopic(bot, callbackQuery, topicId, editableField);

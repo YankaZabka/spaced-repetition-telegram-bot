@@ -57,15 +57,9 @@ const showTopic = async (
           ],
           [
             {
-              text: 'Edit title',
-              callback_data: `/edit?tId=${topic.id}&ef=t`,
+              text: 'Edit',
+              callback_data: `/edit?tId=${topic.id}`,
             },
-            {
-              text: 'Edit description',
-              callback_data: `/edit?tId=${topic.id}&ef=d`,
-            },
-          ],
-          [
             {
               text: 'Delete topic',
               callback_data: `/delete?tId=${topic.id}`,

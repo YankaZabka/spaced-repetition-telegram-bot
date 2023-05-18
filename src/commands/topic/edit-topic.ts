@@ -5,7 +5,7 @@ const editTopic = async (
   bot: TelegramBot,
   callbackQuery: TelegramBot.CallbackQuery,
   topicId: string,
-  editableField: D.types.editableFields,
+  editableField: D.types.editableFields | null,
 ) => {
   const { message } = callbackQuery as {
     message: TelegramBot.Message;
@@ -40,6 +40,37 @@ const editTopic = async (
     return;
   }
 
+  if (editableField === null) {
+    await bot.editMessageReplyMarkup(
+      {
+        inline_keyboard: [
+          [
+            {
+              text: 'Edit Title',
+              callback_data: `/edit?tId=${topic.id}&ef=t`,
+            },
+            {
+              text: 'Edit Description',
+              callback_data: `/edit?tId=${topic.id}&ef=d`,
+            },
+          ],
+          [
+            {
+              text: '« Back to Topic',
+              callback_data: `/nav?path=show-topic&tId=${topic.id}`,
+            },
+          ],
+        ],
+      },
+      {
+        chat_id: chatId,
+        message_id: callbackQuery.message?.message_id,
+      },
+    );
+
+    return;
+  }
+
   const msgResponse = await bot.sendMessage(
     chatId,
     `Please provide new ${formattedEditableField}:`,
@@ -66,6 +97,22 @@ const editTopic = async (
     await bot.sendMessage(
       chatId,
       `Congrats! The topic's ${formattedEditableField} was updated.`,
+      {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: '« Back to Topic',
+                callback_data: `/nav?path=show-topic&tId=${topic.id}`,
+              },
+              {
+                text: '« Back to Topics List',
+                callback_data: `/nav?path=list`,
+              },
+            ],
+          ],
+        },
+      },
     );
   } else {
     await bot.sendMessage(

@@ -48,6 +48,37 @@ const editChapter = async (
     return;
   }
 
+  if (editableField === null) {
+    await bot.editMessageReplyMarkup(
+      {
+        inline_keyboard: [
+          [
+            {
+              text: 'Edit Title',
+              callback_data: `/edit-chapter?tId=${topic.id}&cId=${chapter.id}&ef=t`,
+            },
+            {
+              text: 'Edit Description',
+              callback_data: `/edit-chapter?tId=${topic.id}&cId=${chapter.id}&ef=d`,
+            },
+          ],
+          [
+            {
+              text: '« Back to Chapter',
+              callback_data: `/nav?path=show-chapter&tId=${topicId}&cId=${chapterId}`,
+            },
+          ],
+        ],
+      },
+      {
+        chat_id: chatId,
+        message_id: callbackQuery.message?.message_id,
+      },
+    );
+
+    return;
+  }
+
   const msgResponse = await bot.sendMessage(
     chatId,
     `Please provide new ${formattedEditableField}:`,
@@ -74,6 +105,22 @@ const editChapter = async (
     await bot.sendMessage(
       chatId,
       `Congrats! The chapter's ${formattedEditableField} was updated.`,
+      {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: '« Back to Chapter',
+                callback_data: `/nav?path=show-chapter&tId=${topicId}&cId=${chapterId}`,
+              },
+              {
+                text: '« Back to Chapters List',
+                callback_data: `/nav?path=chapter-list&tId=${topicId}`,
+              },
+            ],
+          ],
+        },
+      },
     );
   } else {
     await bot.sendMessage(

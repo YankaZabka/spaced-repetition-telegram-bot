@@ -57,17 +57,11 @@ const showChapter = async (
         inline_keyboard: [
           [
             {
-              text: 'Edit title',
+              text: 'Edit',
               callback_data: `/edit-chapter?tId=${topic.id}&cId=${chapter.id}`,
             },
             {
-              text: 'Edit description',
-              callback_data: `/edit-chapter?tId=${topic.id}&cId=${chapter.id}`,
-            },
-          ],
-          [
-            {
-              text: 'Delete chapter',
+              text: 'Delete',
               callback_data: `/delete-chapter?tId=${topic.id}&cId=${chapter.id}`,
             },
           ],

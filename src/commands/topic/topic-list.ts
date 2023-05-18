@@ -38,7 +38,7 @@ const topicList = async (
 
   if (callbackQuery) {
     await bot.editMessageText(
-      'There is list of all topic that you created.\\nClick on the topic you want to see information about.',
+      'There is list of all topic that you created.\nClick on the topic you want to see information about.',
       {
         chat_id: chatId,
         message_id: callbackQuery.message?.message_id,
