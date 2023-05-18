@@ -38,3 +38,33 @@ export const getQueryParams = (query: string) => {
   }
   return null;
 };
+
+export const navigate = async (
+  bot: TelegramBot,
+  callbackQuery: TelegramBot.CallbackQuery,
+) => {
+  const { path } = D.utils.getQueryParams(callbackQuery.data as string);
+  const { message } = callbackQuery as {
+    message: TelegramBot.Message;
+  };
+
+  switch (path) {
+    case 'list':
+      await Commands.Topic.topicList(message, bot, callbackQuery);
+      break;
+    case 'show-topic':
+      await Commands.Topic.showTopic(
+        bot,
+        callbackQuery,
+        D.utils.getQueryParams(callbackQuery.data as string).tId,
+      );
+      break;
+    case 'chapter-list':
+      await Commands.Chapter.chapterList(
+        bot,
+        callbackQuery,
+        D.utils.getQueryParams(callbackQuery.data as string).tId,
+      );
+      break;
+  }
+};
