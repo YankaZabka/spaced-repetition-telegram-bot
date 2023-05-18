@@ -38,7 +38,20 @@ const deleteTopic = async (
   }
 
   user.topics = user.topics.filter((topic) => topic.id !== topicId);
-  await bot.sendMessage(chatId, 'Topic was deleted.');
+  await bot.editMessageText('Topic was deleted.', {
+    chat_id: chatId,
+    message_id: callbackQuery.message?.message_id,
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: '« Back to Topics List',
+            callback_data: `/nav?path=list`,
+          },
+        ],
+      ],
+    },
+  });
 };
 
 export default deleteTopic;

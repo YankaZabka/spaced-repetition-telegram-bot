@@ -13,18 +13,20 @@ const callbackQueryHandler = async (
     return;
   }
 
+  if (callbackQuery.data?.startsWith('/nav')) {
+    await bot.answerCallbackQuery(callbackQuery.id);
+    await D.utils.navigate(bot, callbackQuery);
+    return;
+  }
+
   if (callbackQuery.data === '/info') {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Info Section',
-    });
+    await bot.answerCallbackQuery(callbackQuery.id);
     await Commands.info(callbackQuery.message, bot);
     return;
   }
 
   if (callbackQuery.data === '/create') {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Create Topic Section',
-    });
+    await bot.answerCallbackQuery(callbackQuery.id);
     await Commands.Topic.createTopic(
       callbackQuery.message,
       bot,
@@ -34,9 +36,7 @@ const callbackQueryHandler = async (
   }
 
   if (callbackQuery.data?.startsWith('/show-chapter')) {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Chapter List Section',
-    });
+    await bot.answerCallbackQuery(callbackQuery.id);
     const { tId: topicId, cId: chapterId } = D.utils.getQueryParams(
       callbackQuery.data,
     );
@@ -45,22 +45,18 @@ const callbackQueryHandler = async (
   }
 
   if (callbackQuery.data?.startsWith('/show')) {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Show Topic Section',
-    });
+    await bot.answerCallbackQuery(callbackQuery.id);
     const { tId: topicId } = D.utils.getQueryParams(callbackQuery.data);
     await Commands.Topic.showTopic(bot, callbackQuery, topicId);
     return;
   }
 
   if (callbackQuery.data?.startsWith('/edit-chapter')) {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Edit Chapter Section',
-    });
+    await bot.answerCallbackQuery(callbackQuery.id);
     const {
       tId: topicId,
       cId: chapterId,
-      ef: editableField,
+      ef: editableField = null,
     } = D.utils.getQueryParams(callbackQuery.data);
     await Commands.Chapter.editChapter(
       bot,
@@ -73,10 +69,8 @@ const callbackQueryHandler = async (
   }
 
   if (callbackQuery.data?.startsWith('/edit')) {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Edit Topic Section',
-    });
-    const { tId: topicId, ef: editableField } = D.utils.getQueryParams(
+    await bot.answerCallbackQuery(callbackQuery.id);
+    const { tId: topicId, ef: editableField = null } = D.utils.getQueryParams(
       callbackQuery.data,
     );
     await Commands.Topic.editTopic(bot, callbackQuery, topicId, editableField);
@@ -84,9 +78,7 @@ const callbackQueryHandler = async (
   }
 
   if (callbackQuery.data?.startsWith('/delete-chapter')) {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Delete Chapter Section',
-    });
+    await bot.answerCallbackQuery(callbackQuery.id);
     const { tId: topicId, cId: chapterId } = D.utils.getQueryParams(
       callbackQuery.data,
     );
@@ -100,36 +92,28 @@ const callbackQueryHandler = async (
   }
 
   if (callbackQuery.data?.startsWith('/delete')) {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Delete Topic Section',
-    });
+    await bot.answerCallbackQuery(callbackQuery.id);
     const { tId: topicId } = D.utils.getQueryParams(callbackQuery.data);
     await Commands.Topic.deleteTopic(bot, callbackQuery, topicId);
     return;
   }
 
   if (callbackQuery.data?.startsWith('/create-chapter')) {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Add New Chapter Section',
-    });
+    await bot.answerCallbackQuery(callbackQuery.id);
     const { tId: topicId } = D.utils.getQueryParams(callbackQuery.data);
     await Commands.Chapter.createChapter(bot, callbackQuery, topicId);
     return;
   }
 
   if (callbackQuery.data?.startsWith('/chapter-list')) {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Chapter List Section',
-    });
+    await bot.answerCallbackQuery(callbackQuery.id);
     const { tId: topicId } = D.utils.getQueryParams(callbackQuery.data);
     await Commands.Chapter.chapterList(bot, callbackQuery, topicId);
     return;
   }
 
   if (callbackQuery.data?.startsWith('/complete')) {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Complete Chapter Section',
-    });
+    await bot.answerCallbackQuery(callbackQuery.id);
     const { tId: topicId, cId: chapterId } = D.utils.getQueryParams(
       callbackQuery.data,
     );
@@ -138,9 +122,7 @@ const callbackQueryHandler = async (
   }
 
   if (callbackQuery.data?.startsWith('/fail')) {
-    await bot.answerCallbackQuery(callbackQuery.id, {
-      text: 'Fail Chapter Section',
-    });
+    await bot.answerCallbackQuery(callbackQuery.id);
     const { tId: topicId, cId: chapterId } = D.utils.getQueryParams(
       callbackQuery.data,
     );

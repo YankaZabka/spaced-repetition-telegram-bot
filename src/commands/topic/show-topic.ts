@@ -37,37 +37,45 @@ const showTopic = async (
     return;
   }
 
-  await bot.sendMessage(
-    chatId,
+  await bot.editMessageText(
     `Title: ${topic.title}.
     \nDescription: ${topic.description}.`,
     {
+      chat_id: chatId,
+      message_id: callbackQuery.message?.message_id,
       reply_markup: {
         inline_keyboard: [
+          topic.chapters
+            ? [
+                {
+                  text: 'Chapters 📝',
+                  callback_data: `/chapter-list?tId=${topic.id}`,
+                },
+                {
+                  text: 'Add chapter ➕',
+                  callback_data: `/create-chapter?tId=${topic.id}`,
+                },
+              ]
+            : [
+                {
+                  text: 'Add chapter ➕',
+                  callback_data: `/create-chapter?tId=${topic.id}`,
+                },
+              ],
           [
             {
-              text: 'Chapters 📝',
-              callback_data: `/chapter-list?tId=${topic.id}`,
+              text: 'Edit ✏️',
+              callback_data: `/edit?tId=${topic.id}`,
             },
             {
-              text: 'Add chapter ➕',
-              callback_data: `/create-chapter?tId=${topic.id}`,
-            },
-          ],
-          [
-            {
-              text: 'Edit title',
-              callback_data: `/edit?tId=${topic.id}&ef=t`,
-            },
-            {
-              text: 'Edit description',
-              callback_data: `/edit?tId=${topic.id}&ef=d`,
-            },
-          ],
-          [
-            {
-              text: 'Delete topic',
+              text: 'Delete topic 🗑️',
               callback_data: `/delete?tId=${topic.id}`,
+            },
+          ],
+          [
+            {
+              text: '« Back to Topics List',
+              callback_data: `/nav?path=list`,
             },
           ],
         ],

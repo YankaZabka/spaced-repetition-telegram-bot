@@ -47,7 +47,20 @@ const deleteChapter = async (
   }
 
   topic.chapters = topic.chapters.filter((chapter) => chapter.id !== chapterId);
-  await bot.sendMessage(chatId, 'Chapter was deleted.');
+  await bot.editMessageText('Chapter was deleted.', {
+    chat_id: chatId,
+    message_id: callbackQuery.message?.message_id,
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: '« Back to Chapters List',
+            callback_data: `/nav?path=chapter-list&tId=${topicId}`,
+          },
+        ],
+      ],
+    },
+  });
 };
 
 export default deleteChapter;
