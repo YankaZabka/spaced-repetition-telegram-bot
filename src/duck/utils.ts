@@ -59,6 +59,14 @@ export const navigate = async (
         D.utils.getQueryParams(callbackQuery.data as string).tId,
       );
       break;
+    case 'show-chapter':
+      await Commands.Chapter.showChapter(
+        bot,
+        callbackQuery,
+        D.utils.getQueryParams(callbackQuery.data as string).tId,
+        D.utils.getQueryParams(callbackQuery.data as string).cId,
+      );
+      break;
     case 'chapter-list':
       await Commands.Chapter.chapterList(
         bot,
