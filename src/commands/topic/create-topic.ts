@@ -86,7 +86,7 @@ const createTopic = async (
 
     await bot.sendMessage(
       chatId,
-      'Congrats\\! The topic was created\\. Now you can find it with a \\/list command and create a new chapter for it\\.',
+      'Congrats\\! The topic was created\\. Now you can find it with a \\/mytopics command and create a new chapter for it\\.',
       {
         parse_mode: 'MarkdownV2',
       },
