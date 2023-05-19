@@ -14,6 +14,26 @@ export const checkForRepeats = (bot: TelegramBot) => {
       topic.chapters?.forEach((chapter) => {
         const currentDate = D.dayjs();
         const repeatDate = D.dayjs(chapter.repeatDate);
+
+        if (chapter.isWaitingForRepeat) {
+          const fiveHoursAgo = currentDate.subtract(5, 'hour');
+          const isRepeatWasFiveHoursBefore = repeatDate.isBefore(fiveHoursAgo);
+          if (isRepeatWasFiveHoursBefore) {
+            Commands.fail({
+              bot,
+              topicId: topic.id,
+              chapterId: chapter.id,
+              forceFailOptions: {
+                chatId: user.chatId,
+                userId: user.telegramId,
+              },
+            }).then(() => {
+              // do nothing.
+            });
+          }
+          return;
+        }
+
         const isSameOrBefore = repeatDate.isSameOrBefore(currentDate, 'hour');
         if (isSameOrBefore) {
           Commands.repeat(user.chatId, bot, chapter).then(() => {

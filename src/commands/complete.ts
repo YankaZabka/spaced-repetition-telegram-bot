@@ -40,13 +40,16 @@ const complete = async (
     case 1:
       chapter.leitnerBox = 2;
       chapter.repeatDate = D.utils.calculateReviewDate(message.date, 2);
+      chapter.isWaitingForRepeat = false;
       break;
     case 2:
       chapter.leitnerBox = 3;
       chapter.repeatDate = D.utils.calculateReviewDate(message.date, 7);
+      chapter.isWaitingForRepeat = false;
       break;
     case 3:
       chapter.repeatDate = D.utils.calculateReviewDate(message.date, 7);
+      chapter.isWaitingForRepeat = false;
   }
 
   await bot.sendMessage(chatId, 'Chapter was successfully repeated!');
