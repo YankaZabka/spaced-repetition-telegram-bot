@@ -46,6 +46,7 @@ const createChapter = async (
     description: '',
     repeatDate: '',
     leitnerBox: 1,
+    isWaitingForRepeat: false,
   };
 
   const titleMsgResponse = await bot.sendMessage(

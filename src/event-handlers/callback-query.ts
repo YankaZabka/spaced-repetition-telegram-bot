@@ -126,7 +126,12 @@ const callbackQueryHandler = async (
     const { tId: topicId, cId: chapterId } = D.utils.getQueryParams(
       callbackQuery.data,
     );
-    await Commands.fail(bot, callbackQuery, topicId, chapterId);
+    await Commands.fail({
+      bot,
+      topicId,
+      chapterId,
+      callbackQuery,
+    });
     return;
   }
 };

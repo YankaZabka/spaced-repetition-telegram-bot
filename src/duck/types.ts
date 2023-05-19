@@ -24,6 +24,7 @@ export interface IChapter {
   description: string;
   repeatDate: string;
   leitnerBox: number;
+  isWaitingForRepeat: boolean;
 }
 
 export type editableFields = 't' | 'd';

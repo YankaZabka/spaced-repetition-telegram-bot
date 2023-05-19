@@ -6,6 +6,8 @@ const repeat = async (
   bot: TelegramBot,
   chapter: D.types.IChapter,
 ) => {
+  chapter.isWaitingForRepeat = true;
+
   await bot.sendMessage(
     chatId,
     `Title: ${chapter.title}.\nDescription: ${chapter.description}`,
