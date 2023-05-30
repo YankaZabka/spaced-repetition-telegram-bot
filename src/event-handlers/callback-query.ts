@@ -13,6 +13,18 @@ const callbackQueryHandler = async (
     return;
   }
 
+  if (callbackQuery.data?.startsWith('/lang')) {
+    const { lng } = D.utils.getQueryParams(callbackQuery.data);
+    await bot.answerCallbackQuery(callbackQuery.id);
+    await Commands.start(
+      callbackQuery.message,
+      bot,
+      callbackQuery.from.id,
+      lng,
+    );
+    return;
+  }
+
   if (callbackQuery.data?.startsWith('/nav')) {
     await bot.answerCallbackQuery(callbackQuery.id);
     await D.utils.navigate(bot, callbackQuery);

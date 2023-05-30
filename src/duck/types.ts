@@ -4,6 +4,7 @@ export interface IDB {
 
 export interface IUser {
   chatId: number;
+  lng: string;
   telegramId: number;
   topics: ITopic[];
 }
