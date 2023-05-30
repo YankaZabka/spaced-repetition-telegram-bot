@@ -1,0 +1,10 @@
+{
+  "translation": {
+    "start": {
+      "text": "Hi! \uD83D\uDC4B I am a telegram bot that uses a spaced repetition algorithm to help you learn and remember things! \n\n If you want to know more and watch some tutorials, click the *Learn More* button.\n If you're already familiar with my functionality, click the *Create New Topic*.",
+      "info_button": "Learn more \uD83C\uDF93",
+      "create_button": "Create new Topic ➕"
+    },
+    "farewell": "Goodbye!"
+  }
+}
