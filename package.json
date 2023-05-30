@@ -54,6 +54,7 @@
   "dependencies": {
     "dayjs": "1.11.7",
     "dotenv": "16.0.3",
+    "i18next": "22.5.0",
     "nanoid": "4.0.2",
     "node-telegram-bot-api": "0.61.0",
     "toad-scheduler": "2.2.0"
