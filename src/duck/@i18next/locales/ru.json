@@ -97,7 +97,8 @@
       "edit_btn": "Редактировать ✏\uFE0F",
       "delete_btn": "Удалить \uD83D\uDDD1\uFE0F",
       "back_btn": "« Назад к списку Глав",
-      "repeat_date_text": "Дата повтора:"
+      "repeat_date_text": "Дата повтора:",
+      "date_template": "DD-MM-YYYY HH:mm"
     },
     "chapters_list": {
       "error": "Не найдено ни одной главы.",

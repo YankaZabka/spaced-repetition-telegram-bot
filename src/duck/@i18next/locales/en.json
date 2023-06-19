@@ -97,7 +97,8 @@
       "edit_btn": "Edit ✏\uFE0F",
       "delete_btn": "Delete \uD83D\uDDD1\uFE0F",
       "back_btn": "« Back to Chapters List",
-      "repeat_date_text": "Repeat date:"
+      "repeat_date_text": "Repeat date:",
+      "date_template": "YYYY-MM-DD HH:mm"
     },
     "chapters_list": {
       "error": "There is no chapter.",

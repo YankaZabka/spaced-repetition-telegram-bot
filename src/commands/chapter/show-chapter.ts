@@ -54,7 +54,9 @@ const showChapter = async (
     `*${chapter.title}*\n\n${chapter.description}\n\n${i18next.t(
       'show_chapter.repeat_date_text',
       { lng: user.lng },
-    )} ${D.dayjs(chapter.repeatDate).format('YYYY-MM-DD HH:mm')}.`,
+    )} ${D.dayjs(chapter.repeatDate).format(
+      i18next.t('show_chapter.date_template', { lng: user.lng }) as string,
+    )}.`,
     {
       chat_id: chatId,
       message_id: callbackQuery.message?.message_id,

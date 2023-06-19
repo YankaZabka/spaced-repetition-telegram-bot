@@ -64,7 +64,7 @@ const chapterList = async (
           ...inlineKeyboard,
           [
             {
-              text: i18next.t('chapters_list.back_btn'),
+              text: i18next.t('chapters_list.back_btn', { lng: user.lng }),
               callback_data: `/nav?path=show-topic&tId=${topic.id}`,
             },
           ],
