@@ -18,7 +18,7 @@ const initBot = async () => {
   bot.onText(/\/start/, (msg) => Commands.start(msg, bot));
   bot.onText(/\/create/, (msg) => Commands.Topic.createTopic(msg, bot));
   bot.onText(/\/mytopics/, (msg) => Commands.Topic.topicList(msg, bot));
-  bot.onText(/\/info/, (msg) => Commands.info(msg, bot));
+  bot.onText(/\/info/, (msg) => Commands.Info.mainInfo(msg, bot));
 
   bot.on('callback_query', async (callbackQuery) =>
     EventHandlers.callbackQueryHandler(callbackQuery, bot),

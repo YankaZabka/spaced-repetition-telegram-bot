@@ -1,5 +1,6 @@
 import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../../duck/index.js';
+import i18next from 'i18next';
 
 const showChapter = async (
   bot: TelegramBot,
@@ -35,21 +36,25 @@ const showChapter = async (
   const topic = user.topics.find((topic) => topic.id === topicId);
 
   if (!topic) {
-    await bot.sendMessage(chatId, 'Invalid topic. Please try again.');
+    await bot.sendMessage(chatId, i18next.t('errors.topic', { lng: user.lng }));
     return;
   }
 
   const chapter = topic.chapters?.find((chapter) => chapter.id === chapterId);
 
   if (!chapter) {
-    await bot.sendMessage(chatId, 'Invalid chapter. Please try again.');
+    await bot.sendMessage(
+      chatId,
+      i18next.t('errors.chapter', { lng: user.lng }),
+    );
     return;
   }
 
   await bot.editMessageText(
-    `Title: ${chapter.title}.
-    \nDescription: ${chapter.description}.
-    \nRepeat date: ${D.dayjs(chapter.repeatDate).format('YYYY-MM-DD HH:mm')}.`,
+    `*${chapter.title}*\n\n${chapter.description}\n\n${i18next.t(
+      'show_chapter.repeat_date_text',
+      { lng: user.lng },
+    )} ${D.dayjs(chapter.repeatDate).format('YYYY-MM-DD HH:mm')}.`,
     {
       chat_id: chatId,
       message_id: callbackQuery.message?.message_id,
@@ -57,22 +62,24 @@ const showChapter = async (
         inline_keyboard: [
           [
             {
-              text: 'Edit ✏️',
+              text: i18next.t('show_chapter.edit_btn', { lng: user.lng }),
               callback_data: `/edit-chapter?tId=${topic.id}&cId=${chapter.id}`,
             },
             {
-              text: 'Delete 🗑️',
+              text: i18next.t('show_chapter.delete_btn', { lng: user.lng }),
               callback_data: `/delete-chapter?tId=${topic.id}&cId=${chapter.id}`,
             },
           ],
           [
             {
-              text: '« Back to Chapters List',
+              text: i18next.t('show_chapter.back_btn', { lng: user.lng }),
               callback_data: `/nav?path=chapter-list&tId=${topicId}`,
             },
           ],
         ],
       },
+      parse_mode: 'Markdown',
+      disable_web_page_preview: true,
     },
   );
 };

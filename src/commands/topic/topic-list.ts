@@ -1,5 +1,6 @@
 import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../../duck/index.js';
+import i18next from 'i18next';
 
 const topicList = async (
   msg: TelegramBot.Message,
@@ -28,7 +29,10 @@ const topicList = async (
   }
 
   if (user.topics.length === 0) {
-    await bot.sendMessage(chatId, 'There is no topic.');
+    await bot.sendMessage(
+      chatId,
+      i18next.t('topics_list.error', { lng: user.lng }),
+    );
     return;
   }
 
@@ -38,7 +42,7 @@ const topicList = async (
 
   if (callbackQuery) {
     await bot.editMessageText(
-      'There is list of all topic that you created.\nClick on the topic you want to see information about.',
+      i18next.t('topics_list.message', { lng: user.lng }),
       {
         chat_id: chatId,
         message_id: callbackQuery.message?.message_id,
@@ -50,7 +54,7 @@ const topicList = async (
   } else {
     await bot.sendMessage(
       chatId,
-      'There is list of all topic that you created.\nClick on the topic you want to see information about.',
+      i18next.t('topics_list.message', { lng: user.lng }),
       {
         reply_markup: {
           inline_keyboard: inlineKeyboard,

@@ -72,6 +72,9 @@ export const navigate = async (
     case 'list':
       await Commands.Topic.topicList(message, bot, callbackQuery);
       break;
+    case 'info':
+      await Commands.Info.mainInfo(message, bot, callbackQuery);
+      break;
     case 'show-topic':
       await Commands.Topic.showTopic(
         bot,

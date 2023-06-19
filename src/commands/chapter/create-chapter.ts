@@ -1,6 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../../duck/index.js';
 import { nanoid } from 'nanoid';
+import i18next from 'i18next';
 
 const createChapter = async (
   bot: TelegramBot,
@@ -35,7 +36,7 @@ const createChapter = async (
   const topic = user.topics.find((topic) => topic.id === topicId);
 
   if (!topic) {
-    await bot.sendMessage(chatId, 'Invalid topic. Please try again.');
+    await bot.sendMessage(chatId, i18next.t('errors.topic', { lng: user.lng }));
     return;
   }
 
@@ -51,11 +52,13 @@ const createChapter = async (
 
   const titleMsgResponse = await bot.sendMessage(
     chatId,
-    'Please provide a new chapter title:',
+    i18next.t('create_chapter.title_prompt', { lng: user.lng }),
     {
       reply_markup: {
         force_reply: true,
-        input_field_placeholder: 'Title',
+        input_field_placeholder: i18next.t('create_chapter.title_placeholder', {
+          lng: user.lng,
+        }) as string,
       },
     },
   );
@@ -69,17 +72,22 @@ const createChapter = async (
   if (titleReply.text) {
     newChapter.title = titleReply.text;
   } else {
-    await bot.sendMessage(chatId, 'Invalid title. Please try again.');
+    await bot.sendMessage(
+      chatId,
+      i18next.t('create_chapter.errors.title', { lng: user.lng }),
+    );
     return;
   }
 
   const descriptionMsgResponse = await bot.sendMessage(
     chatId,
-    'Please provide a new chapter description:',
+    i18next.t('create_chapter.description_prompt', { lng: user.lng }),
     {
       reply_markup: {
         force_reply: true,
-        input_field_placeholder: 'Description',
+        input_field_placeholder: i18next.t('create_chapter.title_placeholder', {
+          lng: user.lng,
+        }) as string,
       },
     },
   );
@@ -109,10 +117,25 @@ const createChapter = async (
 
     await bot.sendMessage(
       chatId,
-      'Congrats! The chapter was added. You will be notify for repetition on the next day.',
+      i18next.t('create_chapter.success', { lng: user.lng }),
+      {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: i18next.t('create_chapter.back_btn', { lng: user.lng }),
+                callback_data: `/nav?path=show-topic&tId=${topic.id}`,
+              },
+            ],
+          ],
+        },
+      },
     );
   } else {
-    await bot.sendMessage(chatId, 'Invalid description. Please try again.');
+    await bot.sendMessage(
+      chatId,
+      i18next.t('create_chapter.errors.description', { lng: user.lng }),
+    );
   }
 };
 

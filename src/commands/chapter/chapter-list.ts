@@ -1,5 +1,6 @@
 import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../../duck/index.js';
+import i18next from 'i18next';
 
 const chapterList = async (
   bot: TelegramBot,
@@ -34,12 +35,15 @@ const chapterList = async (
   const topic = user.topics.find((topic) => topic.id === topicId);
 
   if (!topic) {
-    await bot.sendMessage(chatId, 'Invalid topic. Please try again.');
+    await bot.sendMessage(chatId, i18next.t('errors.topic', { lng: user.lng }));
     return;
   }
 
   if (!topic.chapters) {
-    await bot.sendMessage(chatId, 'There is no chapters.');
+    await bot.sendMessage(
+      chatId,
+      i18next.t('chapters_list.error', { lng: user.lng }),
+    );
     return;
   }
 
@@ -51,7 +55,7 @@ const chapterList = async (
   ]);
 
   await bot.editMessageText(
-    'There is list of all chapters that you created for this topic.\nClick on the chapter you want to see information about.',
+    i18next.t('chapters_list.message', { lng: user.lng }),
     {
       chat_id: chatId,
       message_id: callbackQuery.message?.message_id,
@@ -60,7 +64,7 @@ const chapterList = async (
           ...inlineKeyboard,
           [
             {
-              text: '« Back to Topic',
+              text: i18next.t('chapters_list.back_btn'),
               callback_data: `/nav?path=show-topic&tId=${topic.id}`,
             },
           ],

@@ -11,7 +11,7 @@ const start = async (
   const chatId = msg.chat.id;
   const userTelegramId = callbackQueryFromId || msg.from?.id;
 
-  if (!msg.from?.id) {
+  if (!userTelegramId) {
     await bot.sendMessage(
       chatId,
       'Something went wrong. I cannot identify your telegram id.',
@@ -47,22 +47,32 @@ const start = async (
     await bot.deleteMessage(chatId, msg.message_id);
     D.constants.DATABASE.users.push({
       chatId,
-      telegramId: msg.from.id,
+      telegramId: userTelegramId,
       topics: [],
       lng,
     });
   }
 
-  await bot.sendMessage(chatId, i18next.t('start.text', { lng }), {
+  const user = D.utils.findDBUserById(userTelegramId);
+
+  if (!user) {
+    await bot.sendMessage(
+      chatId,
+      'Something went wrong. I cannot find your data in database.',
+    );
+    return;
+  }
+
+  await bot.sendMessage(chatId, i18next.t('start.text', { lng: user.lng }), {
     reply_markup: {
       inline_keyboard: [
         [
           {
-            text: i18next.t('start.info_button', { lng }),
+            text: i18next.t('start.info_button', { lng: user.lng }),
             callback_data: '/info',
           },
           {
-            text: i18next.t('start.create_button', { lng }),
+            text: i18next.t('start.create_button', { lng: user.lng }),
             callback_data: '/create',
           },
         ],

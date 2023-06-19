@@ -1,18 +1,16 @@
 import TelegramBot from 'node-telegram-bot-api';
-import * as D from '../../duck/index.js';
 import i18next from 'i18next';
+import * as D from '../../duck/index.js';
 
-const deleteChapter = async (
+const additionalInfo = async (
   bot: TelegramBot,
   callbackQuery: TelegramBot.CallbackQuery,
-  topicId: string,
-  chapterId: string,
+  subject: string,
 ) => {
   const { message } = callbackQuery as {
     message: TelegramBot.Message;
   };
   const chatId = message.chat.id;
-
   const userTelegramId = callbackQuery.from.id;
 
   if (!userTelegramId) {
@@ -33,26 +31,8 @@ const deleteChapter = async (
     return;
   }
 
-  const topic = user.topics.find((topic) => topic.id === topicId);
-
-  if (!topic) {
-    await bot.sendMessage(chatId, i18next.t('errors.topic', { lng: user.lng }));
-    return;
-  }
-
-  const chapter = topic.chapters?.find((chapter) => chapter.id === chapterId);
-
-  if (!chapter || !topic.chapters) {
-    await bot.sendMessage(
-      chatId,
-      i18next.t('errors.chapter', { lng: user.lng }),
-    );
-    return;
-  }
-
-  topic.chapters = topic.chapters.filter((chapter) => chapter.id !== chapterId);
   await bot.editMessageText(
-    i18next.t('delete_chapter.success', { lng: user.lng }),
+    i18next.t(`info.${subject}.text`, { lng: user.lng }),
     {
       chat_id: chatId,
       message_id: callbackQuery.message?.message_id,
@@ -60,14 +40,16 @@ const deleteChapter = async (
         inline_keyboard: [
           [
             {
-              text: i18next.t('delete_chapter.back_btn', { lng: user.lng }),
-              callback_data: `/nav?path=chapter-list&tId=${topicId}`,
+              text: i18next.t(`info.${subject}.back_btn`, { lng: user.lng }),
+              callback_data: `/nav?path=info`,
             },
           ],
         ],
       },
+      parse_mode: 'Markdown',
+      disable_web_page_preview: true,
     },
   );
 };
 
-export default deleteChapter;
+export default additionalInfo;
