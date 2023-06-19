@@ -1,5 +1,6 @@
 import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../../duck/index.js';
+import i18next from 'i18next';
 
 const editChapter = async (
   bot: TelegramBot,
@@ -37,14 +38,17 @@ const editChapter = async (
   const topic = user.topics.find((topic) => topic.id === topicId);
 
   if (!topic) {
-    await bot.sendMessage(chatId, 'Invalid topic. Please try again.');
+    await bot.sendMessage(chatId, i18next.t('errors.topic', { lng: user.lng }));
     return;
   }
 
   const chapter = topic.chapters?.find((chapter) => chapter.id === chapterId);
 
   if (!chapter) {
-    await bot.sendMessage(chatId, 'Invalid chapter. Please try again.');
+    await bot.sendMessage(
+      chatId,
+      i18next.t('errors.chapter', { lng: user.lng }),
+    );
     return;
   }
 
@@ -54,17 +58,21 @@ const editChapter = async (
         inline_keyboard: [
           [
             {
-              text: 'Edit Title',
+              text: i18next.t('edit_chapter.edit_title_btn', { lng: user.lng }),
               callback_data: `/edit-chapter?tId=${topic.id}&cId=${chapter.id}&ef=t`,
             },
             {
-              text: 'Edit Description',
+              text: i18next.t('edit_chapter.edit_description_btn', {
+                lng: user.lng,
+              }),
               callback_data: `/edit-chapter?tId=${topic.id}&cId=${chapter.id}&ef=d`,
             },
           ],
           [
             {
-              text: '« Back to Chapter',
+              text: i18next.t('edit_chapter.back_chapter_btn', {
+                lng: user.lng,
+              }),
               callback_data: `/nav?path=show-chapter&tId=${topicId}&cId=${chapterId}`,
             },
           ],
@@ -81,13 +89,27 @@ const editChapter = async (
 
   const msgResponse = await bot.sendMessage(
     chatId,
-    `Please provide new ${formattedEditableField}:`,
+    i18next.t(`edit_chapter.prompt_${formattedEditableField}`, {
+      lng: user.lng,
+      field: i18next.t(`edit_chapter.${formattedEditableField}_field`, {
+        lng: user.lng,
+      }),
+    }),
     {
       reply_markup: {
         force_reply: true,
         input_field_placeholder:
-          formattedEditableField.charAt(0).toUpperCase() +
-          formattedEditableField.slice(1),
+          i18next
+            .t(`edit_chapter.${formattedEditableField}_field`, {
+              lng: user.lng,
+            })
+            .charAt(0)
+            .toUpperCase() +
+          i18next
+            .t(`edit_chapter.${formattedEditableField}_field`, {
+              lng: user.lng,
+            })
+            .slice(1),
       },
     },
   );
@@ -104,17 +126,26 @@ const editChapter = async (
     chapter[formattedEditableField] = updatedField;
     await bot.sendMessage(
       chatId,
-      `Congrats! The chapter's ${formattedEditableField} was updated.`,
+      i18next.t(`edit_chapter.success_${formattedEditableField}`, {
+        lng: user.lng,
+        field: i18next.t(`edit_chapter.${formattedEditableField}_field`, {
+          lng: user.lng,
+        }),
+      }),
       {
         reply_markup: {
           inline_keyboard: [
             [
               {
-                text: '« Back to Chapter',
+                text: i18next.t('edit_chapter.back_chapter_btn', {
+                  lng: user.lng,
+                }),
                 callback_data: `/nav?path=show-chapter&tId=${topicId}&cId=${chapterId}`,
               },
               {
-                text: '« Back to Chapters List',
+                text: i18next.t('edit_chapter.back_chapters_list_btn', {
+                  lng: user.lng,
+                }),
                 callback_data: `/nav?path=chapter-list&tId=${topicId}`,
               },
             ],

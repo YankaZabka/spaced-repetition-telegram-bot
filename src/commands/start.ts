@@ -1,11 +1,17 @@
 import TelegramBot from 'node-telegram-bot-api';
+import i18next from 'i18next';
 import * as D from '../duck/index.js';
 
-const start = async (msg: TelegramBot.Message, bot: TelegramBot) => {
+const start = async (
+  msg: TelegramBot.Message,
+  bot: TelegramBot,
+  callbackQueryFromId?: number,
+  lng?: string,
+) => {
   const chatId = msg.chat.id;
-  const userTelegramId = msg.from?.id;
+  const userTelegramId = callbackQueryFromId || msg.from?.id;
 
-  if (!msg.from?.id) {
+  if (!userTelegramId) {
     await bot.sendMessage(
       chatId,
       'Something went wrong. I cannot identify your telegram id.',
@@ -18,28 +24,62 @@ const start = async (msg: TelegramBot.Message, bot: TelegramBot) => {
       (user) => user.telegramId === userTelegramId,
     ) === -1
   ) {
+    if (!lng) {
+      await bot.sendMessage(chatId, `🌎 Choose a language:`, {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: '🇷🇺 Русский',
+                callback_data: `/lang?lng=ru`,
+              },
+              {
+                text: '🇬🇧 English',
+                callback_data: `/lang?lng=en`,
+              },
+            ],
+          ],
+        },
+      });
+      return;
+    }
+
+    await bot.deleteMessage(chatId, msg.message_id);
     D.constants.DATABASE.users.push({
       chatId,
-      telegramId: msg.from.id,
+      telegramId: userTelegramId,
       topics: [],
+      lng,
     });
   }
 
-  await bot.sendMessage(
-    chatId,
-    "Hi! 👋 I am a telegram bot that uses a spaced repetition algorithm to help you learn and remember things! \n\n If you want to know more and watch some tutorials, click the *Learn More* button.\n If you're already familiar with my functionality, click the *Create New Topic*.",
-    {
-      reply_markup: {
-        inline_keyboard: [
-          [
-            { text: 'Learn More 🎓', callback_data: '/info' },
-            { text: 'Create New Topic ➕', callback_data: '/create' },
-          ],
+  const user = D.utils.findDBUserById(userTelegramId);
+
+  if (!user) {
+    await bot.sendMessage(
+      chatId,
+      'Something went wrong. I cannot find your data in database.',
+    );
+    return;
+  }
+
+  await bot.sendMessage(chatId, i18next.t('start.text', { lng: user.lng }), {
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: i18next.t('start.info_button', { lng: user.lng }),
+            callback_data: '/info',
+          },
+          {
+            text: i18next.t('start.create_button', { lng: user.lng }),
+            callback_data: '/create',
+          },
         ],
-      },
-      parse_mode: 'Markdown',
+      ],
     },
-  );
+    parse_mode: 'Markdown',
+  });
 };
 
 export default start;

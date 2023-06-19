@@ -1,5 +1,6 @@
 import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../../duck/index.js';
+import i18next from 'i18next';
 
 const editTopic = async (
   bot: TelegramBot,
@@ -36,7 +37,7 @@ const editTopic = async (
   const topic = user.topics.find((topic) => topic.id === topicId);
 
   if (!topic) {
-    await bot.sendMessage(chatId, 'Invalid topic. Please try again.');
+    await bot.sendMessage(chatId, i18next.t('errors.topic', { lng: user.lng }));
     return;
   }
 
@@ -46,17 +47,19 @@ const editTopic = async (
         inline_keyboard: [
           [
             {
-              text: 'Edit Title',
+              text: i18next.t('edit_topic.edit_title_btn', { lng: user.lng }),
               callback_data: `/edit?tId=${topic.id}&ef=t`,
             },
             {
-              text: 'Edit Description',
+              text: i18next.t('edit_topic.edit_description_btn', {
+                lng: user.lng,
+              }),
               callback_data: `/edit?tId=${topic.id}&ef=d`,
             },
           ],
           [
             {
-              text: '« Back to Topic',
+              text: i18next.t('edit_topic.back_topic_btn', { lng: user.lng }),
               callback_data: `/nav?path=show-topic&tId=${topic.id}`,
             },
           ],
@@ -73,13 +76,27 @@ const editTopic = async (
 
   const msgResponse = await bot.sendMessage(
     chatId,
-    `Please provide new ${formattedEditableField}:`,
+    i18next.t(`edit_topic.prompt_${formattedEditableField}`, {
+      lng: user.lng,
+      field: i18next.t(`edit_topic.${formattedEditableField}_field`, {
+        lng: user.lng,
+      }),
+    }),
     {
       reply_markup: {
         force_reply: true,
         input_field_placeholder:
-          formattedEditableField.charAt(0).toUpperCase() +
-          formattedEditableField.slice(1),
+          i18next
+            .t(`edit_topic.${formattedEditableField}_field`, {
+              lng: user.lng,
+            })
+            .charAt(0)
+            .toUpperCase() +
+          i18next
+            .t(`edit_chapter.${formattedEditableField}_field`, {
+              lng: user.lng,
+            })
+            .slice(1),
       },
     },
   );
@@ -96,17 +113,24 @@ const editTopic = async (
     topic[formattedEditableField] = updatedField;
     await bot.sendMessage(
       chatId,
-      `Congrats! The topic's ${formattedEditableField} was updated.`,
+      i18next.t(`edit_topic.success_${formattedEditableField}`, {
+        lng: user.lng,
+        field: i18next.t(`edit_topic.${formattedEditableField}_field`, {
+          lng: user.lng,
+        }),
+      }),
       {
         reply_markup: {
           inline_keyboard: [
             [
               {
-                text: '« Back to Topic',
+                text: i18next.t('edit_topic.back_topic_btn', { lng: user.lng }),
                 callback_data: `/nav?path=show-topic&tId=${topic.id}`,
               },
               {
-                text: '« Back to Topics List',
+                text: i18next.t('edit_topic.back_topics_list_btn', {
+                  lng: user.lng,
+                }),
                 callback_data: `/nav?path=list`,
               },
             ],
@@ -117,7 +141,7 @@ const editTopic = async (
   } else {
     await bot.sendMessage(
       chatId,
-      'Failed to update the topic. Please try again.',
+      i18next.t('edit_topic.error', { lng: user.lng }),
     );
   }
 };

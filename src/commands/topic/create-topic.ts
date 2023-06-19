@@ -1,5 +1,6 @@
 import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../../duck/index.js';
+import i18next from 'i18next';
 import { nanoid } from 'nanoid';
 
 const createTopic = async (
@@ -34,19 +35,21 @@ const createTopic = async (
     description: '',
   };
 
-  const topicMsgResponse = await bot.sendMessage(
+  const titleMsgResponse = await bot.sendMessage(
     chatId,
-    'Please provide a new topic title:',
+    i18next.t('create_topic.title_prompt', { lng: user.lng }),
     {
       reply_markup: {
         force_reply: true,
-        input_field_placeholder: 'Title',
+        input_field_placeholder: i18next.t('create_topic.title_placeholder', {
+          lng: user.lng,
+        }) as string,
       },
     },
   );
 
   const titleReply = await new Promise<TelegramBot.Message>((resolve) => {
-    bot.onReplyToMessage(chatId, topicMsgResponse.message_id, async (msg) => {
+    bot.onReplyToMessage(chatId, titleMsgResponse.message_id, async (msg) => {
       resolve(msg);
     });
   });
@@ -54,17 +57,23 @@ const createTopic = async (
   if (titleReply.text) {
     newTopic.title = titleReply.text;
   } else {
-    await bot.sendMessage(chatId, 'Invalid title. Please try again.');
+    await bot.sendMessage(
+      chatId,
+      i18next.t('create_topic.errors.title', { lng: user.lng }),
+    );
     return;
   }
 
   const descriptionMsgResponse = await bot.sendMessage(
     chatId,
-    'Please provide a new topic description:',
+    i18next.t('create_topic.description_prompt', { lng: user.lng }),
     {
       reply_markup: {
         force_reply: true,
-        input_field_placeholder: 'Description',
+        input_field_placeholder: i18next.t(
+          'create_topic.description_placeholder',
+          { lng: user.lng },
+        ) as string,
       },
     },
   );
@@ -86,13 +95,13 @@ const createTopic = async (
 
     await bot.sendMessage(
       chatId,
-      'Congrats\\! The topic was created\\. Now you can find it with a \\/mytopics command and create a new chapter for it\\.',
-      {
-        parse_mode: 'MarkdownV2',
-      },
+      i18next.t('create_topic.success', { lng: user.lng }),
     );
   } else {
-    await bot.sendMessage(chatId, 'Invalid description. Please try again.');
+    await bot.sendMessage(
+      chatId,
+      i18next.t('create_topic.errors.description', { lng: user.lng }),
+    );
   }
 };
 

@@ -1,0 +1,113 @@
+{
+  "translation": {
+    "start": {
+      "text": "\uD83D\uDC4B Welcome to the Leitner System Bot! \uD83E\uDD16\n\n\uD83D\uDCDA Boost your learning with ease! \uD83D\uDE80\n\nI'm here to help you remember learned material using the power of the Leitner System. \uD83E\uDDE0✨\n\nIf you want to learn more about how it works, click the *[ Learn More \uD83C\uDF93 ]* button, where you'll find detailed information on *topics*, *chapters*, and how the Leitner System can supercharge your knowledge acquisition. \uD83D\uDCD6\n\nOr, if you're eager to dive right in, click the *[ Create new Topic ➕ ]* button to start organizing your learning journey! \uD83D\uDCAA\n\nLet's make learning fun and effective together! \uD83C\uDF89",
+      "info_button": "Learn more \uD83C\uDF93",
+      "create_button": "Create new Topic ➕"
+    },
+    "info": {
+      "main": {
+        "text": "\uD83D\uDCA1 *Learn More* \uD83D\uDCA1\n\nWelcome to the info section! Here you'll find detailed information on how the Leitner System Bot can enhance your learning experience. \uD83D\uDCDA✨\n\n*What is the Leitner System?*\nThe Leitner System is a powerful remembering technique that helps you retain and recall information more effectively. It utilizes spaced repetition and a system of review intervals to optimize your learning process. \uD83E\uDDE0\uD83D\uDD01\n\n*Topics and Chapters*\nIn the Leitner System Bot, you will create *\"Topics\"*, which are used to represent the general name of the subject you are studying (e.g., _\"Photoshop\"_, _\"John Lennon's Poetry\"_). Within each *topic*, you can add specific areas of focus called *\"Chapters\"*. For example, for the _\"Photoshop\"_ *Topic*, *Chapters* could be _\"Tool Panel\"_, _\"Creating Collages\"_ and so on. \uD83D\uDCDD\uD83D\uDCDA\n\n*Review Reminders*\nOnce you've added a chapter, the Leitner System Bot will automatically set up reminders for you. These reminders will prompt you to review the chapter at optimal intervals, ensuring that the information stays fresh and moves from short-term to long-term memory. ⏰\n\n*Completing and Failing a Review*\nAfter each review, you'll have the option to mark the *chapter* as completed if you feel confident in your understanding of the material. On the other hand, if you struggle with the review, you can mark it as failed, and the Leitner System Bot will adjust the intervals to help reinforce your learning. ✅❌\n\n*Supercharge Your Learning*\nBy leveraging the Leitner System, you can make your learning journey more efficient and enjoyable. Regular review and spaced repetition will help you remember the learned material for the long term. \uD83D\uDE80\uD83D\uDCAA\n\nReady to experience it? Invoke the /create command and let's get started!",
+        "leitner_btn": "More on the Leitner System \uD83D\uDCDA",
+        "chapters_btn": "Creating Effective Chapters \uD83E\uDDE9",
+        "author_btn": "About Developer \uD83D\uDC68\u200D\uD83D\uDCBB"
+      },
+      "leitner": {
+        "text": "\uD83D\uDCDA The Leitner System \uD83D\uDCDA\n\nThe Leitner System is a powerful learning system that has been proven to enhance memory retention and improve learning efficiency. \uD83D\uDCC8\n\nHere's how it works:\n\n1️⃣ The system uses a set of flashcards or study materials (*Chapters* in this bot) to facilitate learning. Each flashcard contains a question, concept, or piece of information that you want to remember. \uD83D\uDDC2️\n\n2️⃣ The flashcards are divided into different levels or boxes, typically numbered from 1 to 5, representing stages of mastery. The higher the level, the more effectively you've learned the content. \uD83D\uDCE6\n\n3️⃣ When you study, you begin with all the flashcards (*Chapters*) in the first box. As you review each card, you assess your understanding and answer the question or recall the information from this card. \uD83E\uDD14\n\n4️⃣ If you answer a flashcard correctly, it gets promoted to the next level or box. However, if you struggle or make a mistake, the card goes back to the first box, giving you more opportunities to reinforce your memory. ⬆️⬇️\n\n5️⃣ The key to the Leitner System's efficiency lies in the review process. It schedules the review of flashcards based on their levels. Cards in higher levels are reviewed less frequently, while those in lower levels are reviewed more often. This smart algorithm optimizes your learning and memory retention. ⏰\uD83D\uDD04\n\n*Articles:*\n[Spaced Repetition: A Guide to the Technique](https://e-student.org/spaced-repetition/)\n[The Leitner System: What It Is, How It Works](https://e-student.org/leitner-system/)\n\n*Videos:*\n[Spaced repetition in learning theory](https://www.youtube.com/watch?v=cVf38y07cfk)\n[The Most Important Study Technique I Use as a Medical Student](https://www.youtube.com/watch?v=4BcXR5t7XoU)\n[Spaced Repetition: The most powerful study technique](https://www.youtube.com/watch?v=-uMMRjrzPmE)",
+        "back_btn": "« Back"
+      },
+      "chapters": {
+        "text": "\uD83E\uDDE9 Here's how to effectively create topics and chapters: \uD83E\uDDE9\n\n1️⃣ Choose a subject you're eager to learn and improve. It could be anything from _\"Mathematics\"_ to _\"Playing Guitar\"_ or _\"Spanish\"_.\n\n2️⃣ Create a *topic* by providing a captivating title and a detailed description. Feel free to unleash your creativity! You can use emojis, Telegram text formatting, and links to make your topic engaging and informative.\n\n3️⃣ As you progress, add *chapters* to your chosen *topic*. A well-crafted chapter will make it easier for you to review and recall later. Here's a guide to help you create effective *chapters*:\n\n\uD83D\uDCCC Create a clear and concise chapter *title* that captures the essence of the content.\n\n\uD83D\uDCCC Write a *description* of what the chapter entails. This will serve as a reminder of the key points when you review it later. You can include links to additional materials, examples, or practical exercises to reinforce your understanding and recall of the chapter.\n\n\uD83D\uDCCC If there are important terms or concepts, highlight them using Telegram's text formatting options like bold or italic text.\n\n\uD83D\uDCCC  You can also add emojis. They will make your chapter not only more engaging but also serve as a kind of formatting. With emojis, you can separate text fragments and highlight important areas. Let my messages serve as an example for you!\n\n4️⃣ The Leitner System Bot will remind you to review each chapter at optimal intervals.\n\nHappy learning and best of luck on your journey! \uD83C\uDF1F",
+        "back_btn": "« Back"
+      },
+      "author": {
+        "text": "\uD83D\uDC4B Hello! I'm YankaZabka, the developer behind this Telegram bot. Currently based in Poland \uD83C\uDDF5\uD83C\uDDF1, I work as a software engineer at [Aristek Systems](https://aristeksystems.com/) \uD83D\uDCBB.\n\n My main tech stack:\n\uD83D\uDCCD JavaScript\n\uD83D\uDCCD React.js\n\uD83D\uDCCD Apollo/Client\n\uD83D\uDCCD Chakra-ui\n\nThe motivation behind creating this bot was my desire to enhance my skills in back-end development and to build a truly useful, interesting, and user-friendly tool. \uD83E\uDEE1\n\n\uD83D\uDCDE Feel free to reach out to me:\n[LinkedIn](https://www.linkedin.com/in/ivan-kurenkou-852038256/)\n[Instagram](https://www.instagram.com/swiss.army.bob/)\n[GitHub](https://github.com/YankaZabka)\nEmail: yanka.zabka@gmail.com",
+        "back_btn": "« Back"
+      }
+    },
+    "create_topic": {
+      "title_prompt": "Alright, a new topic. How are we going to call it? Choose a title for your topic:",
+      "description_prompt": "Good. Now let's create a description for your topic:",
+      "title_placeholder": "Title",
+      "description_placeholder": "Description",
+      "errors": {
+        "title": "Invalid title. Please try again.",
+        "description": "Invalid description. Please try again."
+      },
+      "success": "Congrats! The topic was created. Now you can find it with a /mytopics command and create a new chapter for it."
+    },
+    "delete_topic": {
+      "success": "Topic was deleted.",
+      "back_btn": "« Back to Topics List"
+    },
+    "edit_topic": {
+      "title_field": "title",
+      "description_field": "description",
+      "error": "Failed to update the topic. Please try again.",
+      "prompt_title": "Provide new {{field}}:",
+      "prompt_description": "Provide new {{field}}:",
+      "success_title": "Congrats! The topic's {{field}} was updated.",
+      "success_description": "Congrats! The topic's {{field}} was updated.",
+      "back_topic_btn": "« Back to Topic",
+      "back_topics_list_btn": "« Back to Topic List",
+      "edit_title_btn": "Edit Title",
+      "edit_description_btn": "Edit Description"
+    },
+    "show_topic": {
+      "chapters_btn": "Chapters \uD83D\uDCDD",
+      "add_chapter_btn": "Add chapter ➕",
+      "edit_btn": "Edit ✏\uFE0F",
+      "delete_btn": "Delete topic \uD83D\uDDD1\uFE0F",
+      "back_btn": "« Back to Topics List"
+    },
+    "topics_list": {
+      "error": "There is no topic.",
+      "message": "There is list of all topic that you created.\nClick on the topic you want to see information about."
+    },
+    "create_chapter": {
+      "title_prompt": "Provide a new chapter title:",
+      "description_prompt": "Provide a new chapter description:",
+      "title_placeholder": "Title",
+      "description_placeholder": "Description",
+      "errors": {
+        "title": "Invalid title. Please try again.",
+        "description": "Invalid description. Please try again."
+      },
+      "success": "Congrats! The chapter was added. You will be notify for repetition on the next day.",
+      "back_btn": "« Back to Topic"
+    },
+    "delete_chapter": {
+      "success": "Chapter was deleted.",
+      "back_btn": "« Back to Chapters List"
+    },
+    "edit_chapter": {
+      "title_field": "title",
+      "description_field": "description",
+      "error": "Failed to update the chapter. Please try again.",
+      "prompt_title": "Provide new {{field}}:",
+      "prompt_description": "Provide new {{field}}:",
+      "success_title": "Congrats! The chapter's {{field}} was updated.",
+      "success_description": "Congrats! The chapter's {{field}} was updated.",
+      "back_chapter_btn": "« Back to Chapter",
+      "back_chapters_list_btn": "« Back to Chapters List",
+      "edit_title_btn": "Edit Title",
+      "edit_description_btn": "Edit Description"
+    },
+    "show_chapter": {
+      "edit_btn": "Edit ✏\uFE0F",
+      "delete_btn": "Delete \uD83D\uDDD1\uFE0F",
+      "back_btn": "« Back to Chapters List",
+      "repeat_date_text": "Repeat date:",
+      "date_template": "YYYY-MM-DD HH:mm"
+    },
+    "chapters_list": {
+      "error": "There is no chapter.",
+      "back_btn": "« Back to Topic",
+      "message": "There is list of all chapters that you created for this topic.\nClick on the chapter you want to see information about."
+    },
+    "errors": {
+      "topic": "Invalid topic. Please try again.",
+      "chapter": "Invalid chapter. Please try again."
+    }
+  }
+}

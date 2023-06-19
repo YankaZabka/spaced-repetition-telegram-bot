@@ -1,5 +1,6 @@
 import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../../duck/index.js';
+import i18next from 'i18next';
 
 const deleteChapter = async (
   bot: TelegramBot,
@@ -35,32 +36,38 @@ const deleteChapter = async (
   const topic = user.topics.find((topic) => topic.id === topicId);
 
   if (!topic) {
-    await bot.sendMessage(chatId, 'Invalid topic. Please try again.');
+    await bot.sendMessage(chatId, i18next.t('errors.topic', { lng: user.lng }));
     return;
   }
 
   const chapter = topic.chapters?.find((chapter) => chapter.id === chapterId);
 
   if (!chapter || !topic.chapters) {
-    await bot.sendMessage(chatId, 'Invalid chapter. Please try again.');
+    await bot.sendMessage(
+      chatId,
+      i18next.t('errors.chapter', { lng: user.lng }),
+    );
     return;
   }
 
   topic.chapters = topic.chapters.filter((chapter) => chapter.id !== chapterId);
-  await bot.editMessageText('Chapter was deleted.', {
-    chat_id: chatId,
-    message_id: callbackQuery.message?.message_id,
-    reply_markup: {
-      inline_keyboard: [
-        [
-          {
-            text: '« Back to Chapters List',
-            callback_data: `/nav?path=chapter-list&tId=${topicId}`,
-          },
+  await bot.editMessageText(
+    i18next.t('delete_chapter.success', { lng: user.lng }),
+    {
+      chat_id: chatId,
+      message_id: callbackQuery.message?.message_id,
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: i18next.t('delete_chapter.back_btn', { lng: user.lng }),
+              callback_data: `/nav?path=chapter-list&tId=${topicId}`,
+            },
+          ],
         ],
-      ],
+      },
     },
-  });
+  );
 };
 
 export default deleteChapter;

@@ -1,5 +1,6 @@
 import * as D from '../duck/index.js';
 import TelegramBot from 'node-telegram-bot-api';
+import i18next from 'i18next';
 
 const complete = async (
   bot: TelegramBot,
@@ -25,14 +26,17 @@ const complete = async (
   const topic = user.topics.find((topic) => topic.id === topicId);
 
   if (!topic) {
-    await bot.sendMessage(chatId, 'Invalid topic. Please try again.');
+    await bot.sendMessage(chatId, i18next.t('errors.topic', { lng: user.lng }));
     return;
   }
 
   const chapter = topic.chapters?.find((chapter) => chapter.id === chapterId);
 
   if (!chapter || !topic.chapters) {
-    await bot.sendMessage(chatId, 'Invalid chapter. Please try again.');
+    await bot.sendMessage(
+      chatId,
+      i18next.t('errors.chapter', { lng: user.lng }),
+    );
     return;
   }
 

@@ -13,6 +13,18 @@ const callbackQueryHandler = async (
     return;
   }
 
+  if (callbackQuery.data?.startsWith('/lang')) {
+    const { lng } = D.utils.getQueryParams(callbackQuery.data);
+    await bot.answerCallbackQuery(callbackQuery.id);
+    await Commands.start(
+      callbackQuery.message,
+      bot,
+      callbackQuery.from.id,
+      lng,
+    );
+    return;
+  }
+
   if (callbackQuery.data?.startsWith('/nav')) {
     await bot.answerCallbackQuery(callbackQuery.id);
     await D.utils.navigate(bot, callbackQuery);
@@ -21,7 +33,14 @@ const callbackQueryHandler = async (
 
   if (callbackQuery.data === '/info') {
     await bot.answerCallbackQuery(callbackQuery.id);
-    await Commands.info(callbackQuery.message, bot);
+    await Commands.Info.mainInfo(callbackQuery.message, bot, callbackQuery);
+    return;
+  }
+
+  if (callbackQuery.data?.startsWith('/additional-info')) {
+    await bot.answerCallbackQuery(callbackQuery.id);
+    const { subject } = D.utils.getQueryParams(callbackQuery.data);
+    await Commands.Info.additionalInfo(bot, callbackQuery, subject);
     return;
   }
 
