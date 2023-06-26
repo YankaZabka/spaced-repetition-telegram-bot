@@ -25,22 +25,27 @@ const start = async (
     ) === -1
   ) {
     if (!lng) {
-      await bot.sendMessage(chatId, `🌎 Choose a language:`, {
-        reply_markup: {
-          inline_keyboard: [
-            [
-              {
-                text: '🇷🇺 Русский',
-                callback_data: `/lang?lng=ru`,
-              },
-              {
-                text: '🇬🇧 English',
-                callback_data: `/lang?lng=en`,
-              },
+      await bot.sendMessage(
+        chatId,
+        `🌎 Choose a language.\n (You can change it in *profile* later)`,
+        {
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: '🇷🇺 Русский',
+                  callback_data: `/lang?lng=ru`,
+                },
+                {
+                  text: '🇬🇧 English',
+                  callback_data: `/lang?lng=en`,
+                },
+              ],
             ],
-          ],
+          },
+          parse_mode: 'Markdown',
         },
-      });
+      );
       return;
     }
 
@@ -48,6 +53,7 @@ const start = async (
     D.constants.DATABASE.users.push({
       chatId,
       telegramId: userTelegramId,
+      signUpDate: D.dayjs.unix(msg.date).format(),
       topics: [],
       lng,
     });
