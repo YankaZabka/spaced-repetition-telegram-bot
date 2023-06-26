@@ -43,7 +43,7 @@ const showTopic = async (
     message_id: callbackQuery.message?.message_id,
     reply_markup: {
       inline_keyboard: [
-        topic.chapters
+        topic.chapters?.length
           ? [
               {
                 text: i18next.t('show_topic.chapters_btn', { lng: user.lng }),

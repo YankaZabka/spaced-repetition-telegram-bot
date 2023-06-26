@@ -61,7 +61,7 @@ const deleteChapter = async (
           [
             {
               text: i18next.t('delete_chapter.back_btn', { lng: user.lng }),
-              callback_data: `/nav?path=chapter-list&tId=${topicId}`,
+              callback_data: `/nav?path=show-topic&tId=${topicId}`,
             },
           ],
         ],

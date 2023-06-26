@@ -84,7 +84,7 @@
     },
     "delete_chapter": {
       "success": "Chapter was deleted.",
-      "back_btn": "« Back to Chapters List"
+      "back_btn": "« Back to Topic"
     },
     "edit_chapter": {
       "title_field": "title",

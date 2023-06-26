@@ -84,7 +84,7 @@
     },
     "delete_chapter": {
       "success": "Глава была удалена.",
-      "back_btn": "« Назад к списку Глав"
+      "back_btn": "« Назад к Теме"
     },
     "edit_chapter": {
       "title_field": "заголовок",
