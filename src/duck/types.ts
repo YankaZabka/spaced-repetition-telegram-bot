@@ -6,6 +6,7 @@ export interface IUser {
   chatId: number;
   lng: string;
   telegramId: number;
+  signUpDate: string;
   topics: ITopic[];
 }
 

@@ -1,9 +1,15 @@
 {
   "translation": {
+    "date_format": "YYYY-MM-DD HH:mm",
     "start": {
       "text": "\uD83D\uDC4B Welcome to the Leitner System Bot! \uD83E\uDD16\n\n\uD83D\uDCDA Boost your learning with ease! \uD83D\uDE80\n\nI'm here to help you remember learned material using the power of the Leitner System. \uD83E\uDDE0✨\n\nIf you want to learn more about how it works, click the *[ Learn More \uD83C\uDF93 ]* button, where you'll find detailed information on *topics*, *chapters*, and how the Leitner System can supercharge your knowledge acquisition. \uD83D\uDCD6\n\nOr, if you're eager to dive right in, click the *[ Create new Topic ➕ ]* button to start organizing your learning journey! \uD83D\uDCAA\n\nLet's make learning fun and effective together! \uD83C\uDF89",
       "info_button": "Learn more \uD83C\uDF93",
       "create_button": "Create new Topic ➕"
+    },
+    "profile": {
+      "message": "*Sign up date:* {{date}}\n\n*Language:* {{language}}",
+      "lng_changed_message": "Language was changed.",
+      "switch_lng_btn": "Switch to {{language}}"
     },
     "info": {
       "main": {
@@ -78,7 +84,7 @@
     },
     "delete_chapter": {
       "success": "Chapter was deleted.",
-      "back_btn": "« Back to Chapters List"
+      "back_btn": "« Back to Topic"
     },
     "edit_chapter": {
       "title_field": "title",
@@ -97,8 +103,7 @@
       "edit_btn": "Edit ✏\uFE0F",
       "delete_btn": "Delete \uD83D\uDDD1\uFE0F",
       "back_btn": "« Back to Chapters List",
-      "repeat_date_text": "Repeat date:",
-      "date_template": "YYYY-MM-DD HH:mm"
+      "repeat_date_text": "Repeat date:"
     },
     "chapters_list": {
       "error": "There is no chapter.",

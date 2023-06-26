@@ -97,5 +97,8 @@ export const navigate = async (
         D.utils.getQueryParams(callbackQuery.data as string).tId,
       );
       break;
+    case 'profile':
+      await Commands.profile(message, bot, callbackQuery);
+      break;
   }
 };
