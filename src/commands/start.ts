@@ -1,6 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api';
 import i18next from 'i18next';
 import * as D from '../duck/index.js';
+import * as MongoDB from '../mongo-db/index.js';
 
 const start = async (
   msg: TelegramBot.Message,
@@ -19,11 +20,11 @@ const start = async (
     return;
   }
 
-  if (
-    D.constants.DATABASE.users.findIndex(
-      (user) => user.telegramId === userTelegramId,
-    ) === -1
-  ) {
+  const isUserExist = await MongoDB.Models.UserModel.exists({
+    telegramId: userTelegramId,
+  });
+
+  if (isUserExist === null) {
     if (!lng) {
       await bot.sendMessage(
         chatId,
@@ -50,16 +51,30 @@ const start = async (
     }
 
     await bot.deleteMessage(chatId, msg.message_id);
-    D.constants.DATABASE.users.push({
-      chatId,
-      telegramId: userTelegramId,
-      signUpDate: D.dayjs.unix(msg.date).format(),
-      topics: [],
-      lng,
-    });
+    try {
+      const newUser = new MongoDB.Models.UserModel({
+        chatId,
+        telegramId: userTelegramId,
+        signUpDate: D.dayjs.unix(msg.date).format(),
+        lng,
+      });
+      await newUser.save();
+      // eslint-disable-next-line
+    } catch (error: any) {
+      await bot.sendMessage(
+        chatId,
+        `An error occurred when saving a new user: ${error.message || null}`,
+      );
+      return;
+    }
   }
 
-  const user = D.utils.findDBUserById(userTelegramId);
+  const user = await MongoDB.Models.UserModel.findOne(
+    {
+      telegramId: userTelegramId,
+    },
+    'lng',
+  );
 
   if (!user) {
     await bot.sendMessage(

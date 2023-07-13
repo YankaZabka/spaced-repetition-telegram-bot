@@ -102,3 +102,23 @@ export const navigate = async (
       break;
   }
 };
+
+// eslint-disable-next-line
+export const errorWrapper = async (callback: any, message: string) => {
+  try {
+    await callback();
+  } catch (error) {
+    // eslint-disable-next-line
+    console.error(message, error);
+  }
+};
+
+// eslint-disable-next-line
+export const syncErrorWrapper = (callback: any, message: string) => {
+  try {
+    callback();
+  } catch (error) {
+    // eslint-disable-next-line
+    console.error(message, error);
+  }
+};
