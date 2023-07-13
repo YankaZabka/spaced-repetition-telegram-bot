@@ -38,7 +38,8 @@
       "description_placeholder": "Description",
       "errors": {
         "title": "Invalid title. Please try again.",
-        "description": "Invalid description. Please try again."
+        "description": "Invalid description. Please try again.",
+        "saving": "Something went wrong during topic saving. Please try again."
       },
       "success": "Congrats! The topic was created. Now you can find it with a /mytopics command and create a new chapter for it."
     },

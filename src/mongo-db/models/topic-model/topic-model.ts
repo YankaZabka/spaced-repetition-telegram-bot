@@ -6,7 +6,7 @@ export const topicSchema = new mongoose.Schema<D.types.ITopic>({
   id: { type: String, required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
-  chapters: chapterSchema,
+  chapters: [chapterSchema],
 });
 
 export const topicModel = mongoose.model<D.types.ITopic>('Topic', topicSchema);

@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema<D.types.IUser>({
   lng: { type: String, required: true },
   telegramId: { type: Number, required: true },
   signUpDate: { type: String, required: true },
-  topics: topicSchema,
+  topics: [topicSchema],
 });
 
 export const UserModel = mongoose.model<D.types.IUser>('User', userSchema);
