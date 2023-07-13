@@ -9,7 +9,8 @@
     "profile": {
       "message": "*Дата регистрации:* {{date}}\n\n*Язык:* {{language}}",
       "lng_changed_message": "Язык был изменен.",
-      "switch_lng_btn": "Переключить на {{language}}"
+      "switch_lng_btn": "Переключить на {{language}}",
+      "saving_error": "Что-то пошло не так при обновлении языка. Пожалуйста, попробуйте еще раз."
     },
     "info": {
       "main": {

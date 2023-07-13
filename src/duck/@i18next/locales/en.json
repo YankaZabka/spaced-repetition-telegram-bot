@@ -9,7 +9,8 @@
     "profile": {
       "message": "*Sign up date:* {{date}}\n\n*Language:* {{language}}",
       "lng_changed_message": "Language was changed.",
-      "switch_lng_btn": "Switch to {{language}}"
+      "switch_lng_btn": "Switch to {{language}}",
+      "saving_error": "Something went wrong during language updating. Please try again."
     },
     "info": {
       "main": {
