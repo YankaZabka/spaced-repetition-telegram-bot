@@ -97,7 +97,7 @@ const createTopic = async (
     user.topics = user.topics ? [newTopic, ...user.topics] : [newTopic];
     try {
       await user.save();
-    } catch (error) {
+    } catch {
       await bot.sendMessage(
         chatId,
         i18next.t('create_topic.errors.saving', { lng: user.lng }),
