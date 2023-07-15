@@ -46,7 +46,8 @@
     },
     "delete_topic": {
       "success": "Topic was deleted.",
-      "back_btn": "« Back to Topics List"
+      "back_btn": "« Back to Topics List",
+      "saving_error": "Something went wrong during topic deleting. Please try again."
     },
     "edit_topic": {
       "title_field": "title",
