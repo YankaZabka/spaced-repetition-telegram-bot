@@ -2,6 +2,7 @@ import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../../duck/index.js';
 import i18next from 'i18next';
 import { nanoid } from 'nanoid';
+import * as MongoDB from '../../mongo-db/index.js';
 
 const createTopic = async (
   msg: TelegramBot.Message,
@@ -19,7 +20,9 @@ const createTopic = async (
     return;
   }
 
-  const user = D.utils.findDBUserById(userTelegramId);
+  const user = await MongoDB.Models.UserModel.findOne({
+    telegramId: userTelegramId,
+  });
 
   if (!user) {
     await bot.sendMessage(
@@ -91,7 +94,15 @@ const createTopic = async (
   if (descriptionReply.text) {
     newTopic.description = descriptionReply.text;
 
-    user.topics.push(newTopic);
+    user.topics = user.topics ? [newTopic, ...user.topics] : [newTopic];
+    try {
+      await user.save();
+    } catch {
+      await bot.sendMessage(
+        chatId,
+        i18next.t('create_topic.errors.saving', { lng: user.lng }),
+      );
+    }
 
     await bot.sendMessage(
       chatId,

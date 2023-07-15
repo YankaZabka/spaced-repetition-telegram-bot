@@ -1,6 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api';
 import i18next from 'i18next';
 import * as D from '../duck/index.js';
+import * as MongoDB from '../mongo-db/index.js';
 
 const profile = async (
   msg: TelegramBot.Message,
@@ -18,7 +19,9 @@ const profile = async (
     return;
   }
 
-  const user = D.utils.findDBUserById(userTelegramId);
+  const user = await MongoDB.Models.UserModel.findOne({
+    telegramId: userTelegramId,
+  });
 
   if (!user) {
     await bot.sendMessage(
@@ -29,7 +32,16 @@ const profile = async (
   }
 
   if (callbackQuery) {
-    user.lng = user.lng === 'ru' ? 'en' : 'ru';
+    try {
+      user.lng = user.lng === 'ru' ? 'en' : 'ru';
+      await user.save();
+    } catch {
+      await bot.sendMessage(
+        chatId,
+        i18next.t('profile.saving_error', { lng: user.lng }),
+      );
+      return;
+    }
     await bot.editMessageText(
       i18next.t('profile.lng_changed_message', { lng: user.lng }),
       {

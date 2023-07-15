@@ -1,16 +1,19 @@
 import * as D from './index.js';
 import TelegramBot from 'node-telegram-bot-api';
 import * as Commands from '../commands/index.js';
+import * as MongoDB from '../mongo-db/index.js';
 
 export const calculateReviewDate = (msgDate: number, period: number) =>
   D.dayjs.unix(msgDate).add(period, 'day').format();
 
-export const findDBUserById = (userTelegramId: number) =>
-  D.constants.DATABASE.users.find((user) => user.telegramId === userTelegramId);
+export const checkForRepeats = async (bot: TelegramBot) => {
+  const users = await MongoDB.Models.UserModel.find({});
+  if (!users || users?.length === 0) {
+    return;
+  }
 
-export const checkForRepeats = (bot: TelegramBot) => {
-  D.constants.DATABASE.users.forEach((user) => {
-    user.topics.forEach((topic) => {
+  users.forEach((user) => {
+    user.topics?.forEach((topic) => {
       topic.chapters?.forEach((chapter) => {
         const currentDate = D.dayjs();
         const repeatDate = D.dayjs(chapter.repeatDate);
@@ -27,8 +30,6 @@ export const checkForRepeats = (bot: TelegramBot) => {
                 chatId: user.chatId,
                 userId: user.telegramId,
               },
-            }).then(() => {
-              // do nothing.
             });
           }
           return;
@@ -36,9 +37,7 @@ export const checkForRepeats = (bot: TelegramBot) => {
 
         const isSameOrBefore = repeatDate.isSameOrBefore(currentDate, 'hour');
         if (isSameOrBefore) {
-          Commands.repeat(user.chatId, bot, chapter).then(() => {
-            // do nothing.
-          });
+          Commands.repeat(user, bot, chapter);
         }
       });
     });
@@ -100,5 +99,25 @@ export const navigate = async (
     case 'profile':
       await Commands.profile(message, bot, callbackQuery);
       break;
+  }
+};
+
+// eslint-disable-next-line
+export const errorWrapper = async (callback: any, message: string) => {
+  try {
+    await callback();
+  } catch (error) {
+    // eslint-disable-next-line
+    console.error(message, error);
+  }
+};
+
+// eslint-disable-next-line
+export const syncErrorWrapper = (callback: any, message: string) => {
+  try {
+    callback();
+  } catch (error) {
+    // eslint-disable-next-line
+    console.error(message, error);
   }
 };

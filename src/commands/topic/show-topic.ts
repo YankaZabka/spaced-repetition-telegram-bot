@@ -1,6 +1,6 @@
-import * as D from '../../duck/index.js';
 import TelegramBot from 'node-telegram-bot-api';
 import i18next from 'i18next';
+import * as MongoDB from '../../mongo-db/index.js';
 
 const showTopic = async (
   bot: TelegramBot,
@@ -21,7 +21,9 @@ const showTopic = async (
     return;
   }
 
-  const user = D.utils.findDBUserById(userTelegramId);
+  const user = await MongoDB.Models.UserModel.findOne({
+    telegramId: userTelegramId,
+  });
 
   if (!user) {
     await bot.sendMessage(

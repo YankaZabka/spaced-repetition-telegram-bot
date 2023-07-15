@@ -14,8 +14,6 @@ export interface ITopic {
   id: string;
   title: string;
   description: string;
-  cover?: string;
-  links?: string[];
   chapters?: IChapter[];
 }
 

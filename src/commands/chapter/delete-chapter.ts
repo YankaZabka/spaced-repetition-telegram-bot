@@ -1,6 +1,6 @@
 import TelegramBot from 'node-telegram-bot-api';
-import * as D from '../../duck/index.js';
 import i18next from 'i18next';
+import * as MongoDB from '../../mongo-db/index.js';
 
 const deleteChapter = async (
   bot: TelegramBot,
@@ -23,7 +23,9 @@ const deleteChapter = async (
     return;
   }
 
-  const user = D.utils.findDBUserById(userTelegramId);
+  const user = await MongoDB.Models.UserModel.findOne({
+    telegramId: userTelegramId,
+  });
 
   if (!user) {
     await bot.sendMessage(
@@ -51,6 +53,17 @@ const deleteChapter = async (
   }
 
   topic.chapters = topic.chapters.filter((chapter) => chapter.id !== chapterId);
+
+  try {
+    await user.save();
+  } catch {
+    await bot.sendMessage(
+      chatId,
+      i18next.t('delete_chapter.saving_error', { lng: user.lng }),
+    );
+    return;
+  }
+
   await bot.editMessageText(
     i18next.t('delete_chapter.success', { lng: user.lng }),
     {

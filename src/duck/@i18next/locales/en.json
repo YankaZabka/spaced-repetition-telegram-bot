@@ -9,7 +9,8 @@
     "profile": {
       "message": "*Sign up date:* {{date}}\n\n*Language:* {{language}}",
       "lng_changed_message": "Language was changed.",
-      "switch_lng_btn": "Switch to {{language}}"
+      "switch_lng_btn": "Switch to {{language}}",
+      "saving_error": "Something went wrong during language updating. Please try again."
     },
     "info": {
       "main": {
@@ -38,13 +39,15 @@
       "description_placeholder": "Description",
       "errors": {
         "title": "Invalid title. Please try again.",
-        "description": "Invalid description. Please try again."
+        "description": "Invalid description. Please try again.",
+        "saving": "Something went wrong during topic saving. Please try again."
       },
       "success": "Congrats! The topic was created. Now you can find it with a /mytopics command and create a new chapter for it."
     },
     "delete_topic": {
       "success": "Topic was deleted.",
-      "back_btn": "« Back to Topics List"
+      "back_btn": "« Back to Topics List",
+      "saving_error": "Something went wrong during topic deleting. Please try again."
     },
     "edit_topic": {
       "title_field": "title",
@@ -57,7 +60,8 @@
       "back_topic_btn": "« Back to Topic",
       "back_topics_list_btn": "« Back to Topic List",
       "edit_title_btn": "Edit Title",
-      "edit_description_btn": "Edit Description"
+      "edit_description_btn": "Edit Description",
+      "saving_error": "Something went wrong during topic editing. Please try again."
     },
     "show_topic": {
       "chapters_btn": "Chapters \uD83D\uDCDD",
@@ -77,14 +81,16 @@
       "description_placeholder": "Description",
       "errors": {
         "title": "Invalid title. Please try again.",
-        "description": "Invalid description. Please try again."
+        "description": "Invalid description. Please try again.",
+        "saving": "Something went wrong during chapter updating. Please, try again."
       },
       "success": "Congrats! The chapter was added. You will be notify for repetition on the next day.",
       "back_btn": "« Back to Topic"
     },
     "delete_chapter": {
       "success": "Chapter was deleted.",
-      "back_btn": "« Back to Topic"
+      "back_btn": "« Back to Topic",
+      "saving_error": "Something went wrong during chapter deleting. Please, try again."
     },
     "edit_chapter": {
       "title_field": "title",
@@ -109,6 +115,22 @@
       "error": "There is no chapter.",
       "back_btn": "« Back to Topic",
       "message": "There is list of all chapters that you created for this topic.\nClick on the chapter you want to see information about."
+    },
+    "complete": {
+      "success": "Chapter was successfully repeated!",
+      "saving_error": "Something went wrong during completion saving."
+    },
+    "fail": {
+      "success": "Chapter repetition was failed.",
+      "saving_error": "Something went wrong during fail saving."
+    },
+    "repeat": {
+      "title": "Title: ",
+      "description": "Description: ",
+      "complete": "Complete ✅",
+      "fail": "Fail ❎",
+      "snooze": "Snooze \uD83D\uDCA4 (WIP)",
+      "saving_error": "Something went wrong during repetition updating."
     },
     "errors": {
       "topic": "Invalid topic. Please try again.",
