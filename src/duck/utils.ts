@@ -6,9 +6,6 @@ import * as MongoDB from '../mongo-db/index.js';
 export const calculateReviewDate = (msgDate: number, period: number) =>
   D.dayjs.unix(msgDate).add(period, 'day').format();
 
-export const findDBUserById = (userTelegramId: number) =>
-  D.constants.DATABASE.users.find((user) => user.telegramId === userTelegramId);
-
 export const checkForRepeats = async (bot: TelegramBot) => {
   const users = await MongoDB.Models.UserModel.find({});
   if (!users || users?.length === 0) {
