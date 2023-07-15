@@ -60,7 +60,8 @@
       "back_topic_btn": "« Back to Topic",
       "back_topics_list_btn": "« Back to Topic List",
       "edit_title_btn": "Edit Title",
-      "edit_description_btn": "Edit Description"
+      "edit_description_btn": "Edit Description",
+      "saving_error": "Something went wrong during topic editing. Please try again."
     },
     "show_topic": {
       "chapters_btn": "Chapters \uD83D\uDCDD",

@@ -1,6 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../../duck/index.js';
 import i18next from 'i18next';
+import * as MongoDB from '../../mongo-db/index.js';
 
 const editTopic = async (
   bot: TelegramBot,
@@ -24,7 +25,9 @@ const editTopic = async (
     return;
   }
 
-  const user = D.utils.findDBUserById(userTelegramId);
+  const user = await MongoDB.Models.UserModel.findOne({
+    telegramId: userTelegramId,
+  });
 
   if (!user) {
     await bot.sendMessage(
@@ -111,6 +114,17 @@ const editTopic = async (
 
   if (updatedField) {
     topic[formattedEditableField] = updatedField;
+
+    try {
+      await user.save();
+    } catch {
+      await bot.sendMessage(
+        chatId,
+        i18next.t('edit_topic.saving_error', { lng: user.lng }),
+      );
+      return;
+    }
+
     await bot.sendMessage(
       chatId,
       i18next.t(`edit_topic.success_${formattedEditableField}`, {
