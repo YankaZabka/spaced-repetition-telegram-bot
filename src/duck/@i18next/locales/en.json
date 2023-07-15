@@ -81,7 +81,8 @@
       "description_placeholder": "Description",
       "errors": {
         "title": "Invalid title. Please try again.",
-        "description": "Invalid description. Please try again."
+        "description": "Invalid description. Please try again.",
+        "saving": "Something went wrong during chapter updating. Please, try again."
       },
       "success": "Congrats! The chapter was added. You will be notify for repetition on the next day.",
       "back_btn": "« Back to Topic"
