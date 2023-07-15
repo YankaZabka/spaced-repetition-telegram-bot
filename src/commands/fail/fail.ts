@@ -1,6 +1,8 @@
 import * as D from '../../duck/index.js';
 import * as LD from './duck/index.js';
 import i18next from 'i18next';
+import * as MongoDB from '../../mongo-db/index.js';
+import * as Commands from '../index.js';
 
 const fail = async ({
   bot,
@@ -24,7 +26,7 @@ const fail = async ({
     return;
   }
 
-  const user = D.utils.findDBUserById(userId);
+  const user = await MongoDB.Models.UserModel.findOne({ telegramId: userId });
 
   if (!user) {
     await bot.sendMessage(
@@ -82,7 +84,17 @@ const fail = async ({
       chapter.isWaitingForRepeat = false;
   }
 
-  await bot.sendMessage(chatId, 'Chapter repetition was failed.');
+  try {
+    await user.save();
+  } catch {
+    await bot.sendMessage(
+      chatId,
+      i18next.t('fail.saving_error', { lng: user.lng }),
+    );
+    await Commands.repeat(user, bot, chapter);
+  }
+
+  await bot.sendMessage(chatId, i18next.t('fail.success', { lng: user.lng }));
 };
 
 export default fail;

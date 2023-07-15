@@ -112,6 +112,22 @@
       "back_btn": "« Back to Topic",
       "message": "There is list of all chapters that you created for this topic.\nClick on the chapter you want to see information about."
     },
+    "complete": {
+      "success": "Chapter was successfully repeated!",
+      "saving_error": "Something went wrong during completion saving."
+    },
+    "fail": {
+      "success": "Chapter repetition was failed.",
+      "saving_error": "Something went wrong during fail saving."
+    },
+    "repeat": {
+      "title": "Title: ",
+      "description": "Description: ",
+      "complete": "Complete ✅",
+      "fail": "Fail ❎",
+      "snooze": "Snooze \uD83D\uDCA4 (WIP)",
+      "saving_error": "Something went wrong during repetition updating."
+    },
     "errors": {
       "topic": "Invalid topic. Please try again.",
       "chapter": "Invalid chapter. Please try again."

@@ -1,6 +1,8 @@
 import * as D from '../duck/index.js';
 import TelegramBot from 'node-telegram-bot-api';
 import i18next from 'i18next';
+import * as MongoDB from '../mongo-db/index.js';
+import * as Commands from './index.js';
 
 const complete = async (
   bot: TelegramBot,
@@ -13,7 +15,9 @@ const complete = async (
   };
   const chatId = message.chat.id;
 
-  const user = D.utils.findDBUserById(callbackQuery.from.id);
+  const user = await MongoDB.Models.UserModel.findOne({
+    telegramId: callbackQuery.from.id,
+  });
 
   if (!user) {
     await bot.sendMessage(
@@ -56,7 +60,19 @@ const complete = async (
       chapter.isWaitingForRepeat = false;
   }
 
-  await bot.sendMessage(chatId, 'Chapter was successfully repeated!');
+  try {
+    await user.save();
+  } catch {
+    await bot.sendMessage(
+      chatId,
+      i18next.t('complete.saving_error', { lng: user.lng }),
+    );
+    await Commands.repeat(user, bot, chapter);
+  }
+  await bot.sendMessage(
+    chatId,
+    i18next.t('complete.success', { lng: user.lng }),
+  );
 };
 
 export default complete;
