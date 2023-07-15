@@ -1,6 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api';
 import * as D from '../../duck/index.js';
 import i18next from 'i18next';
+import * as MongoDB from '../../mongo-db/index.js';
 
 const editChapter = async (
   bot: TelegramBot,
@@ -25,7 +26,9 @@ const editChapter = async (
     return;
   }
 
-  const user = D.utils.findDBUserById(userTelegramId);
+  const user = await MongoDB.Models.UserModel.findOne({
+    telegramId: userTelegramId,
+  });
 
   if (!user) {
     await bot.sendMessage(
@@ -124,6 +127,19 @@ const editChapter = async (
 
   if (updatedField) {
     chapter[formattedEditableField] = updatedField;
+
+    try {
+      await user.save();
+    } catch {
+      await bot.sendMessage(
+        chatId,
+        i18next.t('edit_chapter.error', {
+          lng: user.lng,
+        }),
+      );
+      return;
+    }
+
     await bot.sendMessage(
       chatId,
       i18next.t(`edit_chapter.success_${formattedEditableField}`, {
@@ -156,7 +172,9 @@ const editChapter = async (
   } else {
     await bot.sendMessage(
       chatId,
-      'Failed to update the chapter. Please try again.',
+      i18next.t('edit_chapter.error', {
+        lng: user.lng,
+      }),
     );
   }
 };
