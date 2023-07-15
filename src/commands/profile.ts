@@ -35,8 +35,7 @@ const profile = async (
     try {
       user.lng = user.lng === 'ru' ? 'en' : 'ru';
       await user.save();
-      // eslint-disable-next-line
-    } catch (error: any) {
+    } catch {
       await bot.sendMessage(
         chatId,
         i18next.t('profile.saving_error', { lng: user.lng }),
